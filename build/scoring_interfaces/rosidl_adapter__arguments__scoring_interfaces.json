@@ -1,0 +1,6 @@
+{
+  "package_name": "scoring_interfaces",
+  "non_idl_tuples": [
+    "/home/lolsondre/dat160_semesterproject/src/multi_robot_scoring/scoring_interfaces:srv/SetMarkerPosition.srv"
+  ]
+}

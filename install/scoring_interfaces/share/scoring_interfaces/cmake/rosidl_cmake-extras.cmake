@@ -1,0 +1,1 @@
+/home/lolsondre/dat160_semesterproject/build/scoring_interfaces/rosidl_cmake/rosidl_cmake-extras.cmake

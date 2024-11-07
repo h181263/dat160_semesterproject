@@ -1,0 +1,1 @@
+/home/lolsondre/dat160_semesterproject/build/bug2_interfaces/rosidl_cmake/srv/GoToPoint_Response.msg

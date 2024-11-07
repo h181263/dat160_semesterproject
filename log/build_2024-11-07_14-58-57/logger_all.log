@@ -1,0 +1,591 @@
+[0.094s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--symlink-install']
+[0.094s] DEBUG:colcon:Parsed command line arguments: Namespace(allow_overriding=[], ament_cmake_args=None, base_paths=['.'], build_base='build', catkin_cmake_args=None, catkin_skip_building_tests=False, cmake_args=None, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, cmake_target=None, cmake_target_skip_unavailable=False, continue_on_error=False, event_handlers=None, executor='parallel', ignore_user_meta=False, install_base='install', log_base=None, log_level=None, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0xffff90e804c0>>, merge_install=False, metas=['./colcon.meta'], mixin=None, mixin_files=None, mixin_verb=('build',), packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_end=None, packages_ignore=None, packages_ignore_regex=None, packages_select=None, packages_select_build_failed=False, packages_select_by_dep=None, packages_select_regex=None, packages_select_test_failures=False, packages_skip=None, packages_skip_build_finished=False, packages_skip_by_dep=None, packages_skip_regex=None, packages_skip_test_passed=False, packages_skip_up_to=None, packages_start=None, packages_up_to=None, packages_up_to_regex=None, parallel_workers=2, paths=None, symlink_install=True, test_result_base=None, verb_extension=<colcon_core.verb.build.BuildVerb object at 0xffff90e804c0>, verb_name='build', verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0xffff90de7370>)
+[0.153s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.153s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.153s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.153s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.153s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.153s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.153s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/lolsondre/dat160_semesterproject'
+[0.153s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.153s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.153s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.153s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.153s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.153s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.153s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.153s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.153s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.158s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_interfaces) by extensions ['ignore', 'ignore_ament_install']
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_interfaces) by extension 'ignore'
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_interfaces) by extension 'ignore_ament_install'
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_interfaces) by extensions ['colcon_pkg']
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_interfaces) by extension 'colcon_pkg'
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_interfaces) by extensions ['colcon_meta']
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_interfaces) by extension 'colcon_meta'
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_interfaces) by extensions ['ros']
+[0.159s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_interfaces) by extension 'ros'
+[0.160s] DEBUG:colcon.colcon_core.package_identification:Package 'src/bug2_interfaces' with type 'ros.ament_cmake' and name 'bug2_interfaces'
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_navigation) by extensions ['ignore', 'ignore_ament_install']
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_navigation) by extension 'ignore'
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_navigation) by extension 'ignore_ament_install'
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_navigation) by extensions ['colcon_pkg']
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_navigation) by extension 'colcon_pkg'
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_navigation) by extensions ['colcon_meta']
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_navigation) by extension 'colcon_meta'
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_navigation) by extensions ['ros']
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/bug2_navigation) by extension 'ros'
+[0.160s] DEBUG:colcon.colcon_core.package_identification:Package 'src/bug2_navigation' with type 'ros.ament_python' and name 'bug2_navigation'
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_challenge_23) by extensions ['ignore', 'ignore_ament_install']
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_challenge_23) by extension 'ignore'
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_challenge_23) by extension 'ignore_ament_install'
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_challenge_23) by extensions ['colcon_pkg']
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_challenge_23) by extension 'colcon_pkg'
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_challenge_23) by extensions ['colcon_meta']
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_challenge_23) by extension 'colcon_meta'
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_challenge_23) by extensions ['ros']
+[0.160s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_challenge_23) by extension 'ros'
+[0.161s] DEBUG:colcon.colcon_core.package_identification:Package 'src/multi_robot_challenge_23' with type 'ros.ament_python' and name 'multi_robot_challenge_23'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extensions ['ignore', 'ignore_ament_install']
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extension 'ignore'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extension 'ignore_ament_install'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extensions ['colcon_pkg']
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extension 'colcon_pkg'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extensions ['colcon_meta']
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extension 'colcon_meta'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extensions ['ros']
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extension 'ros'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extensions ['cmake', 'python']
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extension 'cmake'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extension 'python'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extensions ['python_setup_py']
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring) by extension 'python_setup_py'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring) by extensions ['ignore', 'ignore_ament_install']
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring) by extension 'ignore'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring) by extension 'ignore_ament_install'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring) by extensions ['colcon_pkg']
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring) by extension 'colcon_pkg'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring) by extensions ['colcon_meta']
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring) by extension 'colcon_meta'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring) by extensions ['ros']
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring) by extension 'ros'
+[0.161s] DEBUG:colcon.colcon_core.package_identification:Package 'src/multi_robot_scoring/scoring' with type 'ros.ament_python' and name 'scoring'
+[0.161s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring_interfaces) by extensions ['ignore', 'ignore_ament_install']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring_interfaces) by extension 'ignore'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring_interfaces) by extension 'ignore_ament_install'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring_interfaces) by extensions ['colcon_pkg']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring_interfaces) by extension 'colcon_pkg'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring_interfaces) by extensions ['colcon_meta']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring_interfaces) by extension 'colcon_meta'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring_interfaces) by extensions ['ros']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/scoring_interfaces) by extension 'ros'
+[0.162s] DEBUG:colcon.colcon_core.package_identification:Package 'src/multi_robot_scoring/scoring_interfaces' with type 'ros.ament_cmake' and name 'scoring_interfaces'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extensions ['ignore', 'ignore_ament_install']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extension 'ignore'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extension 'ignore_ament_install'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extensions ['colcon_pkg']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extension 'colcon_pkg'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extensions ['colcon_meta']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extension 'colcon_meta'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extensions ['ros']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extension 'ros'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extensions ['cmake', 'python']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extension 'cmake'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extension 'python'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extensions ['python_setup_py']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/multi_robot_scoring/worlds) by extension 'python_setup_py'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extensions ['ignore', 'ignore_ament_install']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extension 'ignore'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extension 'ignore_ament_install'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extensions ['colcon_pkg']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extension 'colcon_pkg'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extensions ['colcon_meta']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extension 'colcon_meta'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extensions ['ros']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extension 'ros'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extensions ['cmake', 'python']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extension 'cmake'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extension 'python'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extensions ['python_setup_py']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco) by extension 'python_setup_py'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco) by extensions ['ignore', 'ignore_ament_install']
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco) by extension 'ignore'
+[0.162s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco) by extension 'ignore_ament_install'
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco) by extensions ['colcon_pkg']
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco) by extension 'colcon_pkg'
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco) by extensions ['colcon_meta']
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco) by extension 'colcon_meta'
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco) by extensions ['ros']
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco) by extension 'ros'
+[0.163s] DEBUG:colcon.colcon_core.package_identification:Package 'src/ros2_aruco/ros2_aruco' with type 'ros.ament_python' and name 'ros2_aruco'
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco_interfaces) by extensions ['ignore', 'ignore_ament_install']
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco_interfaces) by extension 'ignore'
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco_interfaces) by extension 'ignore_ament_install'
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco_interfaces) by extensions ['colcon_pkg']
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco_interfaces) by extension 'colcon_pkg'
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco_interfaces) by extensions ['colcon_meta']
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco_interfaces) by extension 'colcon_meta'
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco_interfaces) by extensions ['ros']
+[0.163s] Level 1:colcon.colcon_core.package_identification:_identify(src/ros2_aruco/ros2_aruco_interfaces) by extension 'ros'
+[0.163s] DEBUG:colcon.colcon_core.package_identification:Package 'src/ros2_aruco/ros2_aruco_interfaces' with type 'ros.ament_cmake' and name 'ros2_aruco_interfaces'
+[0.163s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.163s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.163s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.163s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.163s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.172s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.172s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.172s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.172s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/lolsondre/dat160_semesterproject/install/scoring' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.172s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.172s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/lolsondre/dat160_semesterproject/install/ros2_aruco' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.172s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.172s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/lolsondre/dat160_semesterproject/install/bug2_navigation' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.172s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.172s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.172s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.172s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.172s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 0 installed packages in /home/lolsondre/dat160_semesterproject/install
+[0.173s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 335 installed packages in /opt/ros/foxy
+[0.174s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.209s] Level 5:colcon.colcon_core.verb:set package 'bug2_interfaces' build argument 'cmake_args' from command line to 'None'
+[0.209s] Level 5:colcon.colcon_core.verb:set package 'bug2_interfaces' build argument 'cmake_target' from command line to 'None'
+[0.209s] Level 5:colcon.colcon_core.verb:set package 'bug2_interfaces' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'bug2_interfaces' build argument 'cmake_clean_cache' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'bug2_interfaces' build argument 'cmake_clean_first' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'bug2_interfaces' build argument 'cmake_force_configure' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'bug2_interfaces' build argument 'ament_cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'bug2_interfaces' build argument 'catkin_cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'bug2_interfaces' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.210s] DEBUG:colcon.colcon_core.verb:Building package 'bug2_interfaces' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/lolsondre/dat160_semesterproject/build/bug2_interfaces', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces', 'merge_install': False, 'path': '/home/lolsondre/dat160_semesterproject/src/bug2_interfaces', 'symlink_install': True, 'test_result_base': None}
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'multi_robot_challenge_23' build argument 'cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'multi_robot_challenge_23' build argument 'cmake_target' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'multi_robot_challenge_23' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'multi_robot_challenge_23' build argument 'cmake_clean_cache' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'multi_robot_challenge_23' build argument 'cmake_clean_first' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'multi_robot_challenge_23' build argument 'cmake_force_configure' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'multi_robot_challenge_23' build argument 'ament_cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'multi_robot_challenge_23' build argument 'catkin_cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'multi_robot_challenge_23' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.210s] DEBUG:colcon.colcon_core.verb:Building package 'multi_robot_challenge_23' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23', 'merge_install': False, 'path': '/home/lolsondre/dat160_semesterproject/src/multi_robot_challenge_23', 'symlink_install': True, 'test_result_base': None}
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco' build argument 'cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco' build argument 'cmake_target' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco' build argument 'cmake_clean_cache' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco' build argument 'cmake_clean_first' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco' build argument 'cmake_force_configure' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco' build argument 'ament_cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco' build argument 'catkin_cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.210s] DEBUG:colcon.colcon_core.verb:Building package 'ros2_aruco' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/lolsondre/dat160_semesterproject/build/ros2_aruco', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/lolsondre/dat160_semesterproject/install/ros2_aruco', 'merge_install': False, 'path': '/home/lolsondre/dat160_semesterproject/src/ros2_aruco/ros2_aruco', 'symlink_install': True, 'test_result_base': None}
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco_interfaces' build argument 'cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco_interfaces' build argument 'cmake_target' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco_interfaces' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco_interfaces' build argument 'cmake_clean_cache' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco_interfaces' build argument 'cmake_clean_first' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco_interfaces' build argument 'cmake_force_configure' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco_interfaces' build argument 'ament_cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco_interfaces' build argument 'catkin_cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'ros2_aruco_interfaces' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.210s] DEBUG:colcon.colcon_core.verb:Building package 'ros2_aruco_interfaces' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/lolsondre/dat160_semesterproject/build/ros2_aruco_interfaces', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces', 'merge_install': False, 'path': '/home/lolsondre/dat160_semesterproject/src/ros2_aruco/ros2_aruco_interfaces', 'symlink_install': True, 'test_result_base': None}
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'scoring' build argument 'cmake_args' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'scoring' build argument 'cmake_target' from command line to 'None'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'scoring' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'scoring' build argument 'cmake_clean_cache' from command line to 'False'
+[0.210s] Level 5:colcon.colcon_core.verb:set package 'scoring' build argument 'cmake_clean_first' from command line to 'False'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring' build argument 'cmake_force_configure' from command line to 'False'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring' build argument 'ament_cmake_args' from command line to 'None'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring' build argument 'catkin_cmake_args' from command line to 'None'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.211s] DEBUG:colcon.colcon_core.verb:Building package 'scoring' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/lolsondre/dat160_semesterproject/build/scoring', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/lolsondre/dat160_semesterproject/install/scoring', 'merge_install': False, 'path': '/home/lolsondre/dat160_semesterproject/src/multi_robot_scoring/scoring', 'symlink_install': True, 'test_result_base': None}
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring_interfaces' build argument 'cmake_args' from command line to 'None'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring_interfaces' build argument 'cmake_target' from command line to 'None'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring_interfaces' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring_interfaces' build argument 'cmake_clean_cache' from command line to 'False'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring_interfaces' build argument 'cmake_clean_first' from command line to 'False'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring_interfaces' build argument 'cmake_force_configure' from command line to 'False'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring_interfaces' build argument 'ament_cmake_args' from command line to 'None'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring_interfaces' build argument 'catkin_cmake_args' from command line to 'None'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'scoring_interfaces' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.211s] DEBUG:colcon.colcon_core.verb:Building package 'scoring_interfaces' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/lolsondre/dat160_semesterproject/build/scoring_interfaces', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces', 'merge_install': False, 'path': '/home/lolsondre/dat160_semesterproject/src/multi_robot_scoring/scoring_interfaces', 'symlink_install': True, 'test_result_base': None}
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'bug2_navigation' build argument 'cmake_args' from command line to 'None'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'bug2_navigation' build argument 'cmake_target' from command line to 'None'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'bug2_navigation' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'bug2_navigation' build argument 'cmake_clean_cache' from command line to 'False'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'bug2_navigation' build argument 'cmake_clean_first' from command line to 'False'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'bug2_navigation' build argument 'cmake_force_configure' from command line to 'False'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'bug2_navigation' build argument 'ament_cmake_args' from command line to 'None'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'bug2_navigation' build argument 'catkin_cmake_args' from command line to 'None'
+[0.211s] Level 5:colcon.colcon_core.verb:set package 'bug2_navigation' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.211s] DEBUG:colcon.colcon_core.verb:Building package 'bug2_navigation' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/lolsondre/dat160_semesterproject/build/bug2_navigation', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/lolsondre/dat160_semesterproject/install/bug2_navigation', 'merge_install': False, 'path': '/home/lolsondre/dat160_semesterproject/src/bug2_navigation', 'symlink_install': True, 'test_result_base': None}
+[0.211s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.212s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.212s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/lolsondre/dat160_semesterproject/src/bug2_interfaces' with build type 'ament_cmake'
+[0.212s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/lolsondre/dat160_semesterproject/src/bug2_interfaces'
+[0.213s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.213s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.213s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.215s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/lolsondre/dat160_semesterproject/src/multi_robot_challenge_23' with build type 'ament_python'
+[0.216s] Level 1:colcon.colcon_core.shell:create_environment_hook('multi_robot_challenge_23', 'ament_prefix_path')
+[0.216s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/multi_robot_challenge_23/hook/ament_prefix_path.ps1'
+[0.216s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/multi_robot_challenge_23/hook/ament_prefix_path.dsv'
+[0.217s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/multi_robot_challenge_23/hook/ament_prefix_path.sh'
+[0.217s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.217s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.221s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/bug2_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake /home/lolsondre/dat160_semesterproject/src/bug2_interfaces -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/lolsondre/dat160_semesterproject/install/bug2_interfaces
+[0.357s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/lolsondre/dat160_semesterproject/src/multi_robot_challenge_23'
+[0.358s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.358s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.536s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23': PYTHONPATH=/home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23/build --no-deps symlink_data
+[0.733s] Level 1:colcon.colcon_core.shell:create_environment_hook('multi_robot_challenge_23', 'pythonpath_develop')
+[0.733s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23' returned '0': PYTHONPATH=/home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23/build --no-deps symlink_data
+[0.733s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23/share/multi_robot_challenge_23/hook/pythonpath_develop.ps1'
+[0.734s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23/share/multi_robot_challenge_23/hook/pythonpath_develop.dsv'
+[0.734s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23/share/multi_robot_challenge_23/hook/pythonpath_develop.sh'
+[0.735s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23' for CMake module files
+[0.736s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23' for CMake config files
+[0.736s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/lib'
+[0.736s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/bin'
+[0.736s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/lib/pkgconfig/multi_robot_challenge_23.pc'
+[0.736s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/lib/python3.8/site-packages'
+[0.736s] Level 1:colcon.colcon_core.shell:create_environment_hook('multi_robot_challenge_23', 'pythonpath')
+[0.736s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/multi_robot_challenge_23/hook/pythonpath.ps1'
+[0.737s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/multi_robot_challenge_23/hook/pythonpath.dsv'
+[0.737s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/multi_robot_challenge_23/hook/pythonpath.sh'
+[0.737s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/bin'
+[0.737s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(multi_robot_challenge_23)
+[0.737s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/multi_robot_challenge_23/package.ps1'
+[0.738s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/multi_robot_challenge_23/package.dsv'
+[0.739s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/multi_robot_challenge_23/package.sh'
+[0.739s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/multi_robot_challenge_23/package.bash'
+[0.739s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/multi_robot_challenge_23/package.zsh'
+[0.740s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/share/colcon-core/packages/multi_robot_challenge_23)
+[0.740s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/lolsondre/dat160_semesterproject/src/ros2_aruco/ros2_aruco' with build type 'ament_python'
+[0.740s] Level 1:colcon.colcon_core.shell:create_environment_hook('ros2_aruco', 'ament_prefix_path')
+[0.740s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/ros2_aruco/hook/ament_prefix_path.ps1'
+[0.740s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/ros2_aruco/hook/ament_prefix_path.dsv'
+[0.740s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/ros2_aruco/hook/ament_prefix_path.sh'
+[0.741s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.741s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.847s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/lolsondre/dat160_semesterproject/src/ros2_aruco/ros2_aruco'
+[0.847s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.847s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.022s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/ros2_aruco': PYTHONPATH=/home/lolsondre/dat160_semesterproject/build/ros2_aruco/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/lolsondre/dat160_semesterproject/install/ros2_aruco/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/lolsondre/dat160_semesterproject/build/ros2_aruco/build --no-deps symlink_data
+[1.218s] Level 1:colcon.colcon_core.shell:create_environment_hook('ros2_aruco', 'pythonpath_develop')
+[1.218s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/ros2_aruco' returned '0': PYTHONPATH=/home/lolsondre/dat160_semesterproject/build/ros2_aruco/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/lolsondre/dat160_semesterproject/install/ros2_aruco/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/lolsondre/dat160_semesterproject/build/ros2_aruco/build --no-deps symlink_data
+[1.218s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/build/ros2_aruco/share/ros2_aruco/hook/pythonpath_develop.ps1'
+[1.219s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/build/ros2_aruco/share/ros2_aruco/hook/pythonpath_develop.dsv'
+[1.219s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/build/ros2_aruco/share/ros2_aruco/hook/pythonpath_develop.sh'
+[1.219s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco' for CMake module files
+[1.219s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco' for CMake config files
+[1.220s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/lib'
+[1.220s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/bin'
+[1.220s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/lib/pkgconfig/ros2_aruco.pc'
+[1.220s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/lib/python3.8/site-packages'
+[1.220s] Level 1:colcon.colcon_core.shell:create_environment_hook('ros2_aruco', 'pythonpath')
+[1.220s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/ros2_aruco/hook/pythonpath.ps1'
+[1.220s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/ros2_aruco/hook/pythonpath.dsv'
+[1.220s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/ros2_aruco/hook/pythonpath.sh'
+[1.220s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/bin'
+[1.220s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(ros2_aruco)
+[1.220s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/ros2_aruco/package.ps1'
+[1.221s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/ros2_aruco/package.dsv'
+[1.221s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/ros2_aruco/package.sh'
+[1.221s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/ros2_aruco/package.bash'
+[1.221s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/ros2_aruco/package.zsh'
+[1.221s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lolsondre/dat160_semesterproject/install/ros2_aruco/share/colcon-core/packages/ros2_aruco)
+[1.221s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/lolsondre/dat160_semesterproject/src/ros2_aruco/ros2_aruco_interfaces' with build type 'ament_cmake'
+[1.221s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/lolsondre/dat160_semesterproject/src/ros2_aruco/ros2_aruco_interfaces'
+[1.222s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.222s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.235s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/ros2_aruco_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake /home/lolsondre/dat160_semesterproject/src/ros2_aruco/ros2_aruco_interfaces -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces
+[1.246s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/bug2_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake /home/lolsondre/dat160_semesterproject/src/bug2_interfaces -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/lolsondre/dat160_semesterproject/install/bug2_interfaces
+[1.247s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/bug2_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --build /home/lolsondre/dat160_semesterproject/build/bug2_interfaces -- -j2 -l2
+[2.607s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/ros2_aruco_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake /home/lolsondre/dat160_semesterproject/src/ros2_aruco/ros2_aruco_interfaces -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces
+[2.607s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/ros2_aruco_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --build /home/lolsondre/dat160_semesterproject/build/ros2_aruco_interfaces -- -j2 -l2
+[3.607s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/bug2_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --build /home/lolsondre/dat160_semesterproject/build/bug2_interfaces -- -j2 -l2
+[3.783s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/bug2_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --install /home/lolsondre/dat160_semesterproject/build/bug2_interfaces
+[4.085s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(bug2_interfaces)
+[4.085s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces' for CMake module files
+[4.085s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces' for CMake config files
+[4.086s] Level 1:colcon.colcon_core.shell:create_environment_hook('bug2_interfaces', 'cmake_prefix_path')
+[4.086s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/cmake_prefix_path.ps1'
+[4.086s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/cmake_prefix_path.dsv'
+[4.086s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/cmake_prefix_path.sh'
+[4.086s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/lib'
+[4.086s] Level 1:colcon.colcon_core.shell:create_environment_hook('bug2_interfaces', 'ld_library_path_lib')
+[4.086s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/ld_library_path_lib.ps1'
+[4.086s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/ld_library_path_lib.dsv'
+[4.087s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/ld_library_path_lib.sh'
+[4.087s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/bin'
+[4.087s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/lib/pkgconfig/bug2_interfaces.pc'
+[4.087s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/lib/python3.8/site-packages'
+[4.087s] Level 1:colcon.colcon_core.shell:create_environment_hook('bug2_interfaces', 'pythonpath')
+[4.087s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/pythonpath.ps1'
+[4.087s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/pythonpath.dsv'
+[4.087s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/pythonpath.sh'
+[4.087s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/bin'
+[4.087s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/package.ps1'
+[4.088s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/package.dsv'
+[4.088s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/package.sh'
+[4.088s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/package.bash'
+[4.088s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/package.zsh'
+[4.088s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/colcon-core/packages/bug2_interfaces)
+[4.088s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/bug2_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --install /home/lolsondre/dat160_semesterproject/build/bug2_interfaces
+[4.112s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(bug2_interfaces)
+[4.112s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces' for CMake module files
+[4.112s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces' for CMake config files
+[4.112s] Level 1:colcon.colcon_core.shell:create_environment_hook('bug2_interfaces', 'cmake_prefix_path')
+[4.112s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/cmake_prefix_path.ps1'
+[4.113s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/cmake_prefix_path.dsv'
+[4.113s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/cmake_prefix_path.sh'
+[4.113s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/lib'
+[4.113s] Level 1:colcon.colcon_core.shell:create_environment_hook('bug2_interfaces', 'ld_library_path_lib')
+[4.113s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/ld_library_path_lib.ps1'
+[4.113s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/ld_library_path_lib.dsv'
+[4.114s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/ld_library_path_lib.sh'
+[4.114s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/bin'
+[4.114s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/lib/pkgconfig/bug2_interfaces.pc'
+[4.114s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/lib/python3.8/site-packages'
+[4.114s] Level 1:colcon.colcon_core.shell:create_environment_hook('bug2_interfaces', 'pythonpath')
+[4.114s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/pythonpath.ps1'
+[4.115s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/pythonpath.dsv'
+[4.115s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/hook/pythonpath.sh'
+[4.115s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/bin'
+[4.115s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/package.ps1'
+[4.115s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/package.dsv'
+[4.115s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/package.sh'
+[4.116s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/package.bash'
+[4.116s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/bug2_interfaces/package.zsh'
+[4.116s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/share/colcon-core/packages/bug2_interfaces)
+[4.116s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/lolsondre/dat160_semesterproject/src/multi_robot_scoring/scoring' with build type 'ament_python'
+[4.116s] Level 1:colcon.colcon_core.shell:create_environment_hook('scoring', 'ament_prefix_path')
+[4.117s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring/share/scoring/hook/ament_prefix_path.ps1'
+[4.117s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/scoring/share/scoring/hook/ament_prefix_path.dsv'
+[4.117s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring/share/scoring/hook/ament_prefix_path.sh'
+[4.117s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[4.117s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[4.232s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/lolsondre/dat160_semesterproject/src/multi_robot_scoring/scoring'
+[4.232s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[4.232s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[4.487s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/scoring': PYTHONPATH=/home/lolsondre/dat160_semesterproject/build/scoring/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/lolsondre/dat160_semesterproject/install/scoring/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/lolsondre/dat160_semesterproject/build/scoring/build --no-deps symlink_data
+[4.608s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/ros2_aruco_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --build /home/lolsondre/dat160_semesterproject/build/ros2_aruco_interfaces -- -j2 -l2
+[4.631s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/ros2_aruco_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --install /home/lolsondre/dat160_semesterproject/build/ros2_aruco_interfaces
+[4.704s] Level 1:colcon.colcon_core.shell:create_environment_hook('scoring', 'pythonpath_develop')
+[4.705s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/build/scoring/share/scoring/hook/pythonpath_develop.ps1'
+[4.705s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/build/scoring/share/scoring/hook/pythonpath_develop.dsv'
+[4.705s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/build/scoring/share/scoring/hook/pythonpath_develop.sh'
+[4.705s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring' for CMake module files
+[4.705s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring' for CMake config files
+[4.706s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring/lib'
+[4.706s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring/bin'
+[4.706s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring/lib/pkgconfig/scoring.pc'
+[4.706s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring/lib/python3.8/site-packages'
+[4.706s] Level 1:colcon.colcon_core.shell:create_environment_hook('scoring', 'pythonpath')
+[4.706s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring/share/scoring/hook/pythonpath.ps1'
+[4.706s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/scoring/share/scoring/hook/pythonpath.dsv'
+[4.706s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring/share/scoring/hook/pythonpath.sh'
+[4.706s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring/bin'
+[4.706s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(scoring)
+[4.707s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring/share/scoring/package.ps1'
+[4.707s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lolsondre/dat160_semesterproject/install/scoring/share/scoring/package.dsv'
+[4.707s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring/share/scoring/package.sh'
+[4.707s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring/share/scoring/package.bash'
+[4.707s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring/share/scoring/package.zsh'
+[4.707s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lolsondre/dat160_semesterproject/install/scoring/share/colcon-core/packages/scoring)
+[4.707s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/lolsondre/dat160_semesterproject/src/multi_robot_scoring/scoring_interfaces' with build type 'ament_cmake'
+[4.707s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/lolsondre/dat160_semesterproject/src/multi_robot_scoring/scoring_interfaces'
+[4.707s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[4.707s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[4.709s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/scoring' returned '0': PYTHONPATH=/home/lolsondre/dat160_semesterproject/build/scoring/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/lolsondre/dat160_semesterproject/install/scoring/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/lolsondre/dat160_semesterproject/build/scoring/build --no-deps symlink_data
+[4.714s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/scoring_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake /home/lolsondre/dat160_semesterproject/src/multi_robot_scoring/scoring_interfaces -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/lolsondre/dat160_semesterproject/install/scoring_interfaces
+[4.909s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(ros2_aruco_interfaces)
+[4.909s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/ros2_aruco_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --install /home/lolsondre/dat160_semesterproject/build/ros2_aruco_interfaces
+[4.910s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces' for CMake module files
+[4.910s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces' for CMake config files
+[4.910s] Level 1:colcon.colcon_core.shell:create_environment_hook('ros2_aruco_interfaces', 'cmake_prefix_path')
+[4.910s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/cmake_prefix_path.ps1'
+[4.911s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/cmake_prefix_path.dsv'
+[4.911s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/cmake_prefix_path.sh'
+[4.911s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/lib'
+[4.911s] Level 1:colcon.colcon_core.shell:create_environment_hook('ros2_aruco_interfaces', 'ld_library_path_lib')
+[4.911s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/ld_library_path_lib.ps1'
+[4.911s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/ld_library_path_lib.dsv'
+[4.911s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/ld_library_path_lib.sh'
+[4.911s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/bin'
+[4.911s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/lib/pkgconfig/ros2_aruco_interfaces.pc'
+[4.911s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/lib/python3.8/site-packages'
+[4.911s] Level 1:colcon.colcon_core.shell:create_environment_hook('ros2_aruco_interfaces', 'pythonpath')
+[4.912s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/pythonpath.ps1'
+[4.912s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/pythonpath.dsv'
+[4.912s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/pythonpath.sh'
+[4.912s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/bin'
+[4.912s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/package.ps1'
+[4.912s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/package.dsv'
+[4.912s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/package.sh'
+[4.913s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/package.bash'
+[4.913s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/package.zsh'
+[4.913s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/colcon-core/packages/ros2_aruco_interfaces)
+[4.944s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(ros2_aruco_interfaces)
+[4.945s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces' for CMake module files
+[4.945s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces' for CMake config files
+[4.945s] Level 1:colcon.colcon_core.shell:create_environment_hook('ros2_aruco_interfaces', 'cmake_prefix_path')
+[4.945s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/cmake_prefix_path.ps1'
+[4.946s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/cmake_prefix_path.dsv'
+[4.946s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/cmake_prefix_path.sh'
+[4.946s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/lib'
+[4.946s] Level 1:colcon.colcon_core.shell:create_environment_hook('ros2_aruco_interfaces', 'ld_library_path_lib')
+[4.946s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/ld_library_path_lib.ps1'
+[4.946s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/ld_library_path_lib.dsv'
+[4.947s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/ld_library_path_lib.sh'
+[4.947s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/bin'
+[4.947s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/lib/pkgconfig/ros2_aruco_interfaces.pc'
+[4.947s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/lib/python3.8/site-packages'
+[4.947s] Level 1:colcon.colcon_core.shell:create_environment_hook('ros2_aruco_interfaces', 'pythonpath')
+[4.947s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/pythonpath.ps1'
+[4.947s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/pythonpath.dsv'
+[4.947s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/hook/pythonpath.sh'
+[4.948s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/bin'
+[4.948s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/package.ps1'
+[4.948s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/package.dsv'
+[4.948s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/package.sh'
+[4.949s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/package.bash'
+[4.949s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/ros2_aruco_interfaces/package.zsh'
+[4.949s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/share/colcon-core/packages/ros2_aruco_interfaces)
+[4.950s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/lolsondre/dat160_semesterproject/src/bug2_navigation' with build type 'ament_python'
+[4.950s] Level 1:colcon.colcon_core.shell:create_environment_hook('bug2_navigation', 'ament_prefix_path')
+[4.950s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/bug2_navigation/hook/ament_prefix_path.ps1'
+[4.950s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/bug2_navigation/hook/ament_prefix_path.dsv'
+[4.950s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/bug2_navigation/hook/ament_prefix_path.sh'
+[4.950s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[4.950s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[5.067s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/lolsondre/dat160_semesterproject/src/bug2_navigation'
+[5.068s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[5.068s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[5.249s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/bug2_navigation': CMAKE_PREFIX_PATH=/home/lolsondre/dat160_semesterproject/install/bug2_interfaces:/home/lolsondre/dat160_semesterproject/install/scoring_interfaces:/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces LD_LIBRARY_PATH=/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/lib:/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/lib:/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/lib:/usr/lib/aarch64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/aarch64-linux-gnu:/opt/ros/foxy/lib PYTHONPATH=/home/lolsondre/dat160_semesterproject/build/bug2_navigation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/lolsondre/dat160_semesterproject/install/bug2_navigation/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/build/scoring:/home/lolsondre/dat160_semesterproject/install/scoring/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/build/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/ros2_aruco/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/build/bug2_navigation:/home/lolsondre/dat160_semesterproject/install/bug2_navigation/lib/python3.8/site-packages:/opt/ros/foxy/lib/python3.8/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/lolsondre/dat160_semesterproject/build/bug2_navigation/build --no-deps symlink_data
+[5.467s] Level 1:colcon.colcon_core.shell:create_environment_hook('bug2_navigation', 'pythonpath_develop')
+[5.467s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/build/bug2_navigation/share/bug2_navigation/hook/pythonpath_develop.ps1'
+[5.467s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/build/bug2_navigation/share/bug2_navigation/hook/pythonpath_develop.dsv'
+[5.467s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/build/bug2_navigation/share/bug2_navigation/hook/pythonpath_develop.sh'
+[5.468s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_navigation' for CMake module files
+[5.468s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_navigation' for CMake config files
+[5.468s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/lib'
+[5.468s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/bin'
+[5.468s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/lib/pkgconfig/bug2_navigation.pc'
+[5.468s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/lib/python3.8/site-packages'
+[5.468s] Level 1:colcon.colcon_core.shell:create_environment_hook('bug2_navigation', 'pythonpath')
+[5.468s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/bug2_navigation/hook/pythonpath.ps1'
+[5.469s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/bug2_navigation/hook/pythonpath.dsv'
+[5.469s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/bug2_navigation/hook/pythonpath.sh'
+[5.469s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/bin'
+[5.469s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(bug2_navigation)
+[5.469s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/bug2_navigation/package.ps1'
+[5.469s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/bug2_navigation/package.dsv'
+[5.469s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/bug2_navigation/package.sh'
+[5.469s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/bug2_navigation/package.bash'
+[5.469s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/bug2_navigation/package.zsh'
+[5.470s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lolsondre/dat160_semesterproject/install/bug2_navigation/share/colcon-core/packages/bug2_navigation)
+[5.470s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/bug2_navigation' returned '0': CMAKE_PREFIX_PATH=/home/lolsondre/dat160_semesterproject/install/bug2_interfaces:/home/lolsondre/dat160_semesterproject/install/scoring_interfaces:/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces LD_LIBRARY_PATH=/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/lib:/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/lib:/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/lib:/usr/lib/aarch64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/aarch64-linux-gnu:/opt/ros/foxy/lib PYTHONPATH=/home/lolsondre/dat160_semesterproject/build/bug2_navigation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/lolsondre/dat160_semesterproject/install/bug2_navigation/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/install/bug2_interfaces/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/build/scoring:/home/lolsondre/dat160_semesterproject/install/scoring/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/install/ros2_aruco_interfaces/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/build/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/ros2_aruco/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/build/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23/lib/python3.8/site-packages:/home/lolsondre/dat160_semesterproject/build/bug2_navigation:/home/lolsondre/dat160_semesterproject/install/bug2_navigation/lib/python3.8/site-packages:/opt/ros/foxy/lib/python3.8/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/lolsondre/dat160_semesterproject/build/bug2_navigation/build --no-deps symlink_data
+[5.701s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/scoring_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake /home/lolsondre/dat160_semesterproject/src/multi_robot_scoring/scoring_interfaces -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/lolsondre/dat160_semesterproject/install/scoring_interfaces
+[5.701s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/scoring_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --build /home/lolsondre/dat160_semesterproject/build/scoring_interfaces -- -j2 -l2
+[7.176s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/scoring_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --build /home/lolsondre/dat160_semesterproject/build/scoring_interfaces -- -j2 -l2
+[7.203s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lolsondre/dat160_semesterproject/build/scoring_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --install /home/lolsondre/dat160_semesterproject/build/scoring_interfaces
+[7.454s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(scoring_interfaces)
+[7.455s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces' for CMake module files
+[7.455s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces' for CMake config files
+[7.455s] Level 1:colcon.colcon_core.shell:create_environment_hook('scoring_interfaces', 'cmake_prefix_path')
+[7.455s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/cmake_prefix_path.ps1'
+[7.455s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/cmake_prefix_path.dsv'
+[7.456s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/cmake_prefix_path.sh'
+[7.456s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/lib'
+[7.456s] Level 1:colcon.colcon_core.shell:create_environment_hook('scoring_interfaces', 'ld_library_path_lib')
+[7.456s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/ld_library_path_lib.ps1'
+[7.456s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/ld_library_path_lib.dsv'
+[7.456s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/ld_library_path_lib.sh'
+[7.456s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/bin'
+[7.456s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/lib/pkgconfig/scoring_interfaces.pc'
+[7.456s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/lib/python3.8/site-packages'
+[7.456s] Level 1:colcon.colcon_core.shell:create_environment_hook('scoring_interfaces', 'pythonpath')
+[7.457s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/pythonpath.ps1'
+[7.457s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lolsondre/dat160_semesterproject/build/scoring_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lolsondre/dat160_semesterproject/install/scoring:/home/lolsondre/dat160_semesterproject/install/ros2_aruco:/home/lolsondre/dat160_semesterproject/install/multi_robot_challenge_23:/home/lolsondre/dat160_semesterproject/install/bug2_navigation:/opt/ros/foxy /usr/bin/cmake --install /home/lolsondre/dat160_semesterproject/build/scoring_interfaces
+[7.457s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/pythonpath.dsv'
+[7.457s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/pythonpath.sh'
+[7.457s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/bin'
+[7.457s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/package.ps1'
+[7.457s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/package.dsv'
+[7.458s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/package.sh'
+[7.458s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/package.bash'
+[7.458s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/package.zsh'
+[7.458s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/colcon-core/packages/scoring_interfaces)
+[7.484s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(scoring_interfaces)
+[7.484s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces' for CMake module files
+[7.485s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces' for CMake config files
+[7.485s] Level 1:colcon.colcon_core.shell:create_environment_hook('scoring_interfaces', 'cmake_prefix_path')
+[7.485s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/cmake_prefix_path.ps1'
+[7.485s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/cmake_prefix_path.dsv'
+[7.485s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/cmake_prefix_path.sh'
+[7.485s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/lib'
+[7.485s] Level 1:colcon.colcon_core.shell:create_environment_hook('scoring_interfaces', 'ld_library_path_lib')
+[7.486s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/ld_library_path_lib.ps1'
+[7.486s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/ld_library_path_lib.dsv'
+[7.486s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/ld_library_path_lib.sh'
+[7.486s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/bin'
+[7.486s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/lib/pkgconfig/scoring_interfaces.pc'
+[7.486s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/lib/python3.8/site-packages'
+[7.486s] Level 1:colcon.colcon_core.shell:create_environment_hook('scoring_interfaces', 'pythonpath')
+[7.486s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/pythonpath.ps1'
+[7.486s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/pythonpath.dsv'
+[7.486s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/hook/pythonpath.sh'
+[7.487s] Level 1:colcon.colcon_core.environment:checking '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/bin'
+[7.487s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/package.ps1'
+[7.487s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/package.dsv'
+[7.487s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/package.sh'
+[7.487s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/package.bash'
+[7.488s] INFO:colcon.colcon_core.shell:Creating package script '/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/scoring_interfaces/package.zsh'
+[7.488s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lolsondre/dat160_semesterproject/install/scoring_interfaces/share/colcon-core/packages/scoring_interfaces)
+[7.488s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[7.488s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[7.488s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[7.488s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[7.492s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[7.492s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[7.492s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[7.508s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[7.508s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/lolsondre/dat160_semesterproject/install/local_setup.ps1'
+[7.508s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/lolsondre/dat160_semesterproject/install/_local_setup_util_ps1.py'
+[7.509s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/lolsondre/dat160_semesterproject/install/setup.ps1'
+[7.510s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/lolsondre/dat160_semesterproject/install/local_setup.sh'
+[7.510s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/lolsondre/dat160_semesterproject/install/_local_setup_util_sh.py'
+[7.510s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/lolsondre/dat160_semesterproject/install/setup.sh'
+[7.520s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/lolsondre/dat160_semesterproject/install/local_setup.bash'
+[7.521s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/lolsondre/dat160_semesterproject/install/setup.bash'
+[7.521s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/lolsondre/dat160_semesterproject/install/local_setup.zsh'
+[7.521s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/lolsondre/dat160_semesterproject/install/setup.zsh'

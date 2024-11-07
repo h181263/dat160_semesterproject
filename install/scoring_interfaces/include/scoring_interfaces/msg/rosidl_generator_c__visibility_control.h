@@ -1,0 +1,1 @@
+/home/lolsondre/dat160_semesterproject/build/scoring_interfaces/rosidl_generator_c/scoring_interfaces/msg/rosidl_generator_c__visibility_control.h

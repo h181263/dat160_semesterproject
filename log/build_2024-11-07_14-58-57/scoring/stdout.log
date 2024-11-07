@@ -1,0 +1,23 @@
+running develop
+running egg_info
+creating scoring.egg-info
+writing scoring.egg-info/PKG-INFO
+writing dependency_links to scoring.egg-info/dependency_links.txt
+writing entry points to scoring.egg-info/entry_points.txt
+writing requirements to scoring.egg-info/requires.txt
+writing top-level names to scoring.egg-info/top_level.txt
+writing manifest file 'scoring.egg-info/SOURCES.txt'
+reading manifest file 'scoring.egg-info/SOURCES.txt'
+writing manifest file 'scoring.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/lolsondre/dat160_semesterproject/install/scoring/lib/python3.8/site-packages/site.py
+Creating /home/lolsondre/dat160_semesterproject/install/scoring/lib/python3.8/site-packages/scoring.egg-link (link to .)
+Installing scoring script to /home/lolsondre/dat160_semesterproject/install/scoring/lib/scoring
+
+Installed /home/lolsondre/dat160_semesterproject/build/scoring
+running symlink_data
+creating /home/lolsondre/dat160_semesterproject/install/scoring/share/ament_index
+creating /home/lolsondre/dat160_semesterproject/install/scoring/share/ament_index/resource_index
+creating /home/lolsondre/dat160_semesterproject/install/scoring/share/ament_index/resource_index/packages
+symbolically linking /home/lolsondre/dat160_semesterproject/build/scoring/resource/scoring -> /home/lolsondre/dat160_semesterproject/install/scoring/share/ament_index/resource_index/packages
+symbolically linking /home/lolsondre/dat160_semesterproject/build/scoring/package.xml -> /home/lolsondre/dat160_semesterproject/install/scoring/share/scoring

@@ -1,0 +1,1 @@
+/home/lolsondre/dat160_semesterproject/build/ros2_aruco/launch/aruco_recognition.launch.py

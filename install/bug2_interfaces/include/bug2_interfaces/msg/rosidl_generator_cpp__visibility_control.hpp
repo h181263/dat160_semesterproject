@@ -1,0 +1,1 @@
+/home/lolsondre/dat160_semesterproject/build/bug2_interfaces/rosidl_generator_cpp/bug2_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
