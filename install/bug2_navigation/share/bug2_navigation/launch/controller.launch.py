@@ -1,1 +1,0 @@
-/home/lolsondre/dat160_semesterproject/build/bug2_navigation/launch/controller.launch.py

@@ -1,1 +1,0 @@
-/home/lolsondre/dat160_semesterproject/build/bug2_interfaces/rosidl_typesupport_fastrtps_c/bug2_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h

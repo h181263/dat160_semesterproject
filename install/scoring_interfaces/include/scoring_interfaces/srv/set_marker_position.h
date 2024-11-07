@@ -1,1 +1,0 @@
-/home/lolsondre/dat160_semesterproject/build/scoring_interfaces/rosidl_generator_c/scoring_interfaces/srv/set_marker_position.h

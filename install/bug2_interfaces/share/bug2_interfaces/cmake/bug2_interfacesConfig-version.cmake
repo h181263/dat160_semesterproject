@@ -1,1 +1,0 @@
-/home/lolsondre/dat160_semesterproject/build/bug2_interfaces/ament_cmake_core/bug2_interfacesConfig-version.cmake

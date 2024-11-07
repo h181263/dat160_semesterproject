@@ -1,1 +1,0 @@
-/home/lolsondre/dat160_semesterproject/build/bug2_interfaces/rosidl_generator_c/bug2_interfaces/srv/go_to_point.h
