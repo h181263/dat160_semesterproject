@@ -1,2 +1,0 @@
-bool move_switch
-geometry_msgs/Point target_position

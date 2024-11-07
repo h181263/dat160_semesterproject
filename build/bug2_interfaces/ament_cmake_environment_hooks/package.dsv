@@ -1,4 +1,0 @@
-source;share/bug2_interfaces/local_setup.bash
-source;share/bug2_interfaces/local_setup.dsv
-source;share/bug2_interfaces/local_setup.sh
-source;share/bug2_interfaces/local_setup.zsh

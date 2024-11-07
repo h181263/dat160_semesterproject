@@ -1,4 +1,0 @@
-source;share/scoring_interfaces/local_setup.bash
-source;share/scoring_interfaces/local_setup.dsv
-source;share/scoring_interfaces/local_setup.sh
-source;share/scoring_interfaces/local_setup.zsh
