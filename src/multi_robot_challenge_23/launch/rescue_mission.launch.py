@@ -1,25 +1,60 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, ExecuteProcess
+from launch.actions import IncludeLaunchDescription, ExecuteProcess, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument
 
 def generate_launch_description():
     package_name = 'multi_robot_challenge_23'
     
-    # Launch the world with robots
-    world_launch = IncludeLaunchDescription(
+    # Declare use_sim_time
+    use_sim_time = LaunchConfiguration('use_sim_time', default='true')
+    
+    # Launch Gazebo with world
+    gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
-            os.path.join(get_package_share_directory(package_name), 'launch'),
-            '/rescue_robots_w3.launch.py'
+            os.path.join(get_package_share_directory('gazebo_ros'), 'launch'),
+            '/gazebo.launch.py'
         ])
     )
     
-    # Launch scoring system
-    scoring_system = ExecuteProcess(
-        cmd=['ros2', 'run', 'scoring', 'scoring'],
-        output='screen'
+    # Add Gazebo ros_state node for scoring system
+    gazebo_ros_state = Node(
+        package='gazebo_ros',
+        executable='gazebo_ros_state',
+        name='gazebo_ros_state',
+        output='screen',
+        parameters=[{'use_sim_time': use_sim_time}]
+    )
+    
+    # Launch the world with robots after Gazebo is ready
+    world_launch = TimerAction(
+        period=3.0,
+        actions=[
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([
+                    os.path.join(get_package_share_directory(package_name), 'launch'),
+                    '/rescue_robots_w3.launch.py'
+                ])
+            )
+        ]
+    )
+    
+    # Launch scoring system after Gazebo services are available
+    scoring_system = TimerAction(
+        period=5.0,
+        actions=[
+            Node(
+                package='scoring',
+                executable='scoring',
+                name='scoring_node',
+                output='screen',
+                parameters=[{'use_sim_time': use_sim_time}]
+            )
+        ]
     )
     
     # Launch wall followers for each robot
@@ -27,6 +62,7 @@ def generate_launch_description():
         package='multi_robot_challenge_23',
         executable='wall_follower',
         namespace='tb3_0',  # Outer wall follower
+        parameters=[{'use_sim_time': use_sim_time}],
         remappings=[
             ('scan', 'scan'),
             ('cmd_vel', 'cmd_vel'),
@@ -37,6 +73,7 @@ def generate_launch_description():
         package='multi_robot_challenge_23',
         executable='wall_follower',
         namespace='tb3_1',  # Inner wall follower
+        parameters=[{'use_sim_time': use_sim_time}],
         remappings=[
             ('scan', 'scan'),
             ('cmd_vel', 'cmd_vel'),
@@ -48,6 +85,7 @@ def generate_launch_description():
         package='multi_robot_challenge_23',
         executable='marker_detector',
         namespace='tb3_0',
+        parameters=[{'use_sim_time': use_sim_time}],
         remappings=[
             ('aruco_markers', 'aruco_markers'),
         ]
@@ -57,6 +95,7 @@ def generate_launch_description():
         package='multi_robot_challenge_23',
         executable='marker_detector',
         namespace='tb3_1',
+        parameters=[{'use_sim_time': use_sim_time}],
         remappings=[
             ('aruco_markers', 'aruco_markers'),
         ]
@@ -80,6 +119,8 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        gazebo,
+        gazebo_ros_state,
         world_launch,
         scoring_system,
         wall_follower_1,
@@ -88,4 +129,4 @@ def generate_launch_description():
         marker_detector_2,
         aruco_1,
         aruco_2
-    ]) 
+    ])
