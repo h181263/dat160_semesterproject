@@ -32,6 +32,8 @@ setup(
             'leader = multi_robot_challenge_23.leader:main',
             'wall_follower = multi_robot_challenge_23.wall_follower:main',
             'fire_detector = multi_robot_challenge_23.fire_detector:main',
+            'marker_detector = multi_robot_challenge_23.marker_detector:main',
+            'fire_navigator = multi_robot_challenge_23.fire_navigator:main',
         ],
     },
 )
