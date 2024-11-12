@@ -35,6 +35,7 @@ setup(
             'fire_detector = multi_robot_challenge_23.fire_detector:main',
             'marker_detector = multi_robot_challenge_23.marker_detector:main',
             'fire_navigator = multi_robot_challenge_23.fire_navigator:main',
+            'marker_pose = multi_robot_challenge_23.marker_pose:main',
         ],
     },
 )

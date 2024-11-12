@@ -138,12 +138,12 @@ def generate_launch_description():
         scoring_system,
         wall_follower_1,
         wall_follower_2,
-        marker_detector_1,
-        marker_detector_2,
+        # marker_detector_1,
+        # marker_detector_2,
         marker_pose_1,
         marker_pose_2,
-        explorer_1,
-        explorer_2,
+        # explorer_1,
+        # explorer_2,
         aruco_1,
         aruco_2
     ])
