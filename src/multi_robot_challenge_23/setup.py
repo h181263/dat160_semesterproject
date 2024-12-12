@@ -28,17 +28,11 @@ setup(
     entry_points={
         'console_scripts': [
             'marker_recognition = multi_robot_challenge_23.marker_pose:main',
-            'robot_handler = multi_robot_challenge_23.robot_handler:main',
-            'leader = multi_robot_challenge_23.leader:main',
-            'controller = multi_robot_challenge_23.master_controller:main',
-            '0gotopoint_controller = multi_robot_challenge_23.tb3_0.go_to_point:main',
-            '0wallfollower_controller = multi_robot_challenge_23.tb3_0.wall_follower:main',
-            '0bug2_controller = multi_robot_challenge_23.tb3_0.bug2:main',
-            '0robot_controller = multi_robot_challenge_23.tb3_0.robot:main',
-            '1gotopoint_controller = multi_robot_challenge_23.tb3_1.go_to_point:main',
-            '1wallfollower_controller = multi_robot_challenge_23.tb3_1.wall_follower:main',
-            '1bug2_controller = multi_robot_challenge_23.tb3_1.bug2:main',
-            '1robot_controller = multi_robot_challenge_23.tb3_1.robot:main',
+            'braitenberg = multi_robot_challenge_23.braitenberg:main',
+            'report_marker = multi_robot_challenge_23.report_marker:main',
+            'bug2 = multi_robot_challenge_23.bug2:main', 
+            'goToPoint = multi_robot_challenge_23.goToPoint:main', 
+            'wallFollower = multi_robot_challenge_23.wallFollower:main',   
         ],
     },
 )
