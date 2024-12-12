@@ -27,15 +27,11 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'explorer = multi_robot_challenge_23.explorer:main',
-            'marker_recognition = multi_robot_challenge_23.marker_pose:main',
             'robot_handler = multi_robot_challenge_23.robot_handler:main',
             'leader = multi_robot_challenge_23.leader:main',
-            'wall_follower = multi_robot_challenge_23.wall_follower:main',
-            'fire_detector = multi_robot_challenge_23.fire_detector:main',
-            'marker_detector = multi_robot_challenge_23.marker_detector:main',
-            'fire_navigator = multi_robot_challenge_23.fire_navigator:main',
             'marker_pose = multi_robot_challenge_23.marker_pose:main',
+            'marker_recognition = multi_robot_challenge_23.marker_pose:main',
+            'robot_controller = multi_robot_challenge_23.robot_controller:main',
         ],
     },
 )
