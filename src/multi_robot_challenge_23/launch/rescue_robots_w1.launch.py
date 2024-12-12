@@ -99,7 +99,8 @@ def generate_launch_description():
         package='multi_robot_challenge_23',
         executable='robot_controller',
         name='search_rescue_controller',
-        output='screen'
+        output='screen',
+        parameters=[{'use_sim_time': use_sim_time}]
     )
 
     return LaunchDescription([
