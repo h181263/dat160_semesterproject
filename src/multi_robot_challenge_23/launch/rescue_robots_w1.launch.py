@@ -94,15 +94,6 @@ def generate_launch_description():
         output='screen'
     )
 
-    # Search & Rescue controller
-    controller = Node(
-        package='multi_robot_challenge_23',
-        executable='robot_controller',
-        name='search_rescue_controller',
-        output='screen',
-        parameters=[{'use_sim_time': use_sim_time}]
-    )
-
     return LaunchDescription([
         sim_time_arg,
         gazebo,
@@ -111,5 +102,4 @@ def generate_launch_description():
         tb3_0,
         tb3_1,
         rviz_node,
-        controller,
     ])
