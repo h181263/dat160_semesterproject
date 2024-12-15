@@ -246,55 +246,79 @@ class RobotController(Node):
             self.get_logger().warn(f"{self.namespace}: Waiting for sensor data...")
             return
 
-        if not self.is_exploring:
-            self.is_exploring = True
-            self.get_logger().info(f"{self.namespace} starting exploration")
-        
         twist = Twist()
         
-        # Get front distance from laser scan
+        # Get distances in all important directions
         front_distance = min([x for x in self.scan_data[165:195] if not math.isinf(x)], default=10.0)
         left_distance = min([x for x in self.scan_data[60:120] if not math.isinf(x)], default=10.0)
         right_distance = min([x for x in self.scan_data[240:300] if not math.isinf(x)], default=10.0)
         
-        # Debug info
-        self.get_logger().debug(f"{self.namespace}: Front: {front_distance:.2f}, Left: {left_distance:.2f}, Right: {right_distance:.2f}")
-
-        # Check if stuck
-        if self.check_if_stuck():
-            if not self.recovery_mode:
-                self.recovery_mode = True
-                self.get_logger().info(f"{self.namespace} is stuck, entering recovery mode")
+        # Check for corner trap (V-shaped corner)
+        left_diagonal = min([x for x in self.scan_data[120:150] if not math.isinf(x)], default=10.0)
+        right_diagonal = min([x for x in self.scan_data[210:240] if not math.isinf(x)], default=10.0)
+        
+        # Detect if robot is in a corner
+        in_corner = (front_distance < 0.7 and 
+                    left_diagonal < 0.7 and 
+                    right_diagonal < 0.7)
+        
+        if in_corner or self.check_if_stuck():
+            # Corner escape behavior
+            self.get_logger().info(f"{self.namespace}: Corner detected or stuck, executing escape maneuver")
             
-            # Recovery behavior - back up and turn
-            twist.linear.x = -0.1
-            twist.angular.z = 0.5
+            # Back up and rotate
+            twist.linear.x = -0.15
+            
+            # Choose rotation direction based on available space
+            if left_distance > right_distance:
+                twist.angular.z = 0.6  # Rotate left
+            else:
+                twist.angular.z = -0.6  # Rotate right
             
         else:
             # Normal exploration behavior
             if front_distance > self.min_front_distance:
-                # Move forward if path is clear
                 twist.linear.x = self.linear_speed
                 
-                # Wall following behavior
+                # Enhanced wall following
                 if left_distance < 0.5:  # Too close to left wall
-                    twist.angular.z = -0.2  # Turn right
+                    twist.angular.z = -0.3
                 elif right_distance < 0.5:  # Too close to right wall
-                    twist.angular.z = 0.2   # Turn left
-                elif left_distance > 2.0 and right_distance > 2.0:  # In open space
-                    # Random wandering
-                    twist.angular.z = (np.random.random() - 0.5) * 0.5
-                    
+                    twist.angular.z = 0.3
+                elif left_distance > 2.0 and right_distance > 2.0:  # Open space
+                    # Random wandering with bias towards unexplored areas
+                    twist.angular.z = (np.random.random() - 0.5) * 0.4
             else:
-                # Obstacle ahead - find best turn direction
+                # Obstacle avoidance
                 if left_distance > right_distance:
-                    twist.angular.z = self.angular_speed  # Turn left
+                    twist.angular.z = 0.4  # Turn left
                 else:
-                    twist.angular.z = -self.angular_speed  # Turn right
+                    twist.angular.z = -0.4  # Turn right
         
         # Publish movement command
-        self.get_logger().debug(f"{self.namespace}: Publishing twist: linear={twist.linear.x:.2f}, angular={twist.angular.z:.2f}")
         self.cmd_vel_pub.publish(twist)
+
+    def check_if_stuck(self):
+        """Enhanced stuck detection"""
+        if not hasattr(self.last_position, 'x'):
+            self.last_position = self.position
+            return False
+
+        distance_moved = math.sqrt(
+            (self.position.x - self.last_position.x) ** 2 +
+            (self.position.y - self.last_position.y) ** 2
+        )
+
+        if distance_moved < self.stuck_threshold:
+            self.stuck_counter += 1
+        else:
+            self.stuck_counter = max(0, self.stuck_counter - 2)  # Faster reset of stuck counter
+
+        self.last_position = Point()
+        self.last_position.x = self.position.x
+        self.last_position.y = self.position.y
+
+        return self.stuck_counter > self.stuck_time_threshold
 
     def test_movement(self):
         """Test function to verify basic movement"""
