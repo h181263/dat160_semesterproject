@@ -14,7 +14,6 @@ class RobotController(Node):
     def __init__(self):
         super().__init__('robot_controller')
         
-        # Get the actual namespace from ROS
         self.namespace = self.get_namespace().strip('/')
         if not self.namespace:
             self.namespace = 'tb3_0'
@@ -26,18 +25,33 @@ class RobotController(Node):
         self.odom_sub = self.create_subscription(Odometry, f'/{self.namespace}/odom', self.odom_callback, 10)
         self.scan_sub = self.create_subscription(LaserScan, f'/{self.namespace}/scan', self.scan_callback, 10)
         
+        # Aruco marker subscribers
+        self.marker_pose_sub = self.create_subscription(Pose, f'/{self.namespace}/marker_map_pose', 
+                                                      self.marker_pose_callback, 10)
+        self.marker_id_sub = self.create_subscription(Int64, f'/{self.namespace}/marker_id', 
+                                                  self.marker_id_callback, 10)
+        
+        # Service client for reporting markers
+        self.marker_client = self.create_client(SetMarkerPosition, '/set_marker_position')
+        
         # Robot state
         self.position = None
         self.yaw = 0.0
         self.scan_data = None
+        self.current_marker_pose = None
+        self.current_marker_id = None
+        self.reported_markers = set()
         
         # Wall following states
         self.state = 0
         self.state_dict = {
             0: 'find the wall',
-            1: 'turn left',
+            1: 'turn',
             2: 'follow the wall',
         }
+        
+        # Direction modifier based on robot ID (mirrored behavior)
+        self.direction_modifier = -1 if self.namespace == 'tb3_0' else 1
         
         # Region definitions
         self.regions = {
@@ -48,9 +62,47 @@ class RobotController(Node):
             'left': 10.0,
         }
         
-        # Create timer for movement control
         self.create_timer(0.1, self.control_loop)
-        self.get_logger().info(f"{self.namespace} - Initialization complete")
+
+    def marker_pose_callback(self, msg):
+        """Handle marker pose detection"""
+        self.current_marker_pose = msg
+        if self.current_marker_id is not None and self.current_marker_id not in self.reported_markers:
+            self.report_marker()
+
+    def marker_id_callback(self, msg):
+        """Handle marker ID detection"""
+        self.current_marker_id = msg.data
+        if self.current_marker_pose is not None and self.current_marker_id not in self.reported_markers:
+            self.report_marker()
+
+    def report_marker(self):
+        """Report detected marker to scoring system"""
+        if not self.marker_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().warn('Marker reporting service not available')
+            return
+
+        request = SetMarkerPosition.Request()
+        request.marker_id = self.current_marker_id
+        request.marker_position = self.current_marker_pose.position
+
+        future = self.marker_client.call_async(request)
+        future.add_done_callback(self.report_marker_callback)
+
+    def report_marker_callback(self, future):
+        """Handle marker reporting response"""
+        try:
+            response = future.result()
+            if response.accepted:
+                self.get_logger().info(f'Successfully reported marker {self.current_marker_id}')
+                self.reported_markers.add(self.current_marker_id)
+                # If this is the big fire marker (ID 4), stop and wait for other robot
+                if self.current_marker_id == 4:
+                    self.get_logger().info('Big fire detected, waiting for other robot')
+            else:
+                self.get_logger().warn(f'Marker {self.current_marker_id} report not accepted')
+        except Exception as e:
+            self.get_logger().error(f'Service call failed: {str(e)}')
 
     def scan_callback(self, msg):
         self.scan_data = msg.ranges
@@ -85,77 +137,64 @@ class RobotController(Node):
 
     def take_action(self):
         regions = self.regions
-        d = 0.7  # Distance threshold
+        d = 0.7
 
-        self.get_logger().info(f"{self.namespace} - Current state: {self.state_dict[self.state]}")
-        self.get_logger().info(f"{self.namespace} - Distances - Front: {regions['front']:.2f}, Left: {regions['left']:.2f}, Right: {regions['right']:.2f}")
-
-        if regions['front'] > d and regions['fleft'] > d and regions['fright'] > d:
-            state_description = 'case 1 - nothing'
-            self.change_state(0)
-        elif regions['front'] < d and regions['fleft'] > d and regions['fright'] > d:
-            state_description = 'case 2 - front'
-            self.change_state(1)
-        elif regions['front'] > d and regions['fleft'] > d and regions['fright'] < d:
-            state_description = 'case 3 - fright'
-            self.change_state(2)
-        elif regions['front'] > d and regions['fleft'] < d and regions['fright'] > d:
-            state_description = 'case 4 - fleft'
-            self.change_state(0)
-        elif regions['front'] < d and regions['fleft'] > d and regions['fright'] < d:
-            state_description = 'case 5 - front and fright'
-            self.change_state(1)
-        elif regions['front'] < d and regions['fleft'] < d and regions['fright'] > d:
-            state_description = 'case 6 - front and fleft'
-            self.change_state(1)
-        elif regions['front'] < d and regions['fleft'] < d and regions['fright'] < d:
-            state_description = 'case 7 - front and fleft and fright'
-            self.change_state(1)
-        elif regions['front'] > d and regions['fleft'] < d and regions['fright'] < d:
-            state_description = 'case 8 - fleft and fright'
-            self.change_state(0)
+        # Mirror the region checks based on robot ID
+        if self.namespace == 'tb3_0':
+            check_side = regions['right']
+            check_side_front = regions['fright']
         else:
-            state_description = 'unknown case'
-        
-        self.get_logger().info(f"{self.namespace} - {state_description}")
+            check_side = regions['left']
+            check_side_front = regions['fleft']
+
+        if regions['front'] > d and check_side_front > d:
+            self.change_state(0)  # find wall
+        elif regions['front'] < d:
+            self.change_state(1)  # turn
+        elif check_side < d:
+            self.change_state(2)  # follow wall
+        else:
+            self.change_state(0)  # find wall
 
     def find_wall(self):
         msg = Twist()
         msg.linear.x = 0.2
-        msg.angular.z = -0.3
+        msg.angular.z = -0.3 * self.direction_modifier  # Mirror the rotation
         return msg
 
-    def turn_left(self):
+    def turn(self):
         msg = Twist()
-        msg.angular.z = 0.5
+        msg.angular.z = 0.5 * self.direction_modifier  # Mirror the rotation
         return msg
 
     def follow_the_wall(self):
         msg = Twist()
         msg.linear.x = 0.3
+        # Add slight rotation to maintain wall following
+        msg.angular.z = 0.1 * self.direction_modifier
         return msg
 
     def control_loop(self):
         if not self.scan_data:
-            self.get_logger().warn(f"{self.namespace} - No scan data available")
             return
         
+        # Don't move if we've found the big fire and are waiting
+        if 4 in self.reported_markers:
+            msg = Twist()
+            self.cmd_vel_pub.publish(msg)
+            return
+
         msg = Twist()
         if self.state == 0:
             msg = self.find_wall()
-            self.get_logger().info(f"{self.namespace} - Finding wall")
         elif self.state == 1:
-            msg = self.turn_left()
-            self.get_logger().info(f"{self.namespace} - Turning left")
+            msg = self.turn()
         elif self.state == 2:
             msg = self.follow_the_wall()
-            self.get_logger().info(f"{self.namespace} - Following wall")
         else:
             self.get_logger().error(f"{self.namespace} - Unknown state!")
             return
 
-        # Debug movement commands
-        self.get_logger().info(f"{self.namespace} - Publishing velocity - Linear: {msg.linear.x:.2f}, Angular: {msg.angular.z:.2f}")
         self.cmd_vel_pub.publish(msg)
 
 def main(args=None):
