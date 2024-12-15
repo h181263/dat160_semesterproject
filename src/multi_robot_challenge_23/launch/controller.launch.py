@@ -7,11 +7,13 @@ def generate_launch_description():
             package='multi_robot_challenge_23',
             executable='robot_controller',
             namespace='tb3_0',
+            parameters=[{'namespace': 'tb3_0'}],
             name='controller_0'),
         launch_ros.actions.Node(
             package='multi_robot_challenge_23',
             executable='robot_controller', 
             namespace='tb3_1',
+            parameters=[{'namespace': 'tb3_1'}],
             name='controller_1'),
         launch_ros.actions.Node(
             package='scoring',

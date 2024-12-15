@@ -30,6 +30,10 @@ class RobotController(Node):
             LaserScan, f'/{namespace}/scan', self.scan_callback, 10)
         self.fire_sub = self.create_subscription(
             String, '/big_fire_location', self.fire_callback, 10)
+        self.marker_pose_sub = self.create_subscription(
+            Pose, f'/{namespace}/marker_map_pose', self.marker_pose_callback, 10)
+        self.marker_id_sub = self.create_subscription(
+            Int64, f'/{namespace}/marker_id', self.marker_id_callback, 10)
             
         # Service client for marker reporting
         self.marker_client = self.create_client(
@@ -37,35 +41,49 @@ class RobotController(Node):
             
         # Robot state
         self.position = Point()
-        self.orientation = 0.0  # yaw in radians
+        self.orientation = 0.0
         self.scan_data = None
-        self.frontiers = []
-        self.visited_points = []
-        self.big_fire_location = None
-        self.linear_speed = 0.2
-        self.angular_speed = 0.5
-        self.distance_threshold = 0.3
-        self.angle_threshold = 0.1
-        
-        # Map boundaries (from map yaml files)
-        self.map_bounds = {
-            'x_min': -10.0,
-            'x_max': 10.0,
-            'y_min': -10.0,
-            'y_max': 10.0
-        }
-        
-        # Add subscribers for marker detection
-        self.marker_pose_sub = self.create_subscription(
-            Pose, f'/{namespace}/marker_map_pose', self.marker_pose_callback, 10)
-        self.marker_id_sub = self.create_subscription(
-            Int64, f'/{namespace}/marker_id', self.marker_id_callback, 10)
-        
-        # Add marker detection state
         self.current_marker_pose = None
         self.current_marker_id = None
         self.new_marker_detected = False
+        self.is_exploring = False
         
+        # Create a timer for exploration
+        self.create_timer(0.1, self.exploration_callback)  # 10Hz update rate
+
+    def exploration_callback(self):
+        """Main control loop"""
+        if not self.scan_data or self.position is None:
+            return  # Wait for sensor data
+            
+        if not self.is_exploring:
+            self.is_exploring = True
+            self.get_logger().info(f"{self.namespace} starting exploration")
+            
+        # Simple exploration strategy: rotate until finding clear path
+        twist = Twist()
+        
+        if self.scan_data:
+            # Find the longest distance in front of the robot
+            front_arc = self.scan_data[-45:] + self.scan_data[:45]  # ±45 degrees
+            max_distance = max(front_arc)
+            
+            if max_distance > 1.0:  # If there's space to move forward
+                twist.linear.x = 0.2
+                twist.angular.z = 0.0
+            else:
+                twist.linear.x = 0.0
+                twist.angular.z = 0.5  # Rotate to find clear path
+                
+            self.cmd_vel_pub.publish(twist)
+            
+        # Check for markers
+        if self.detect_marker():
+            marker_id, position = self.get_marker_info()
+            if marker_id is not None and position is not None:
+                self.report_marker(marker_id, position)
+                self.get_logger().info(f"Reported marker {marker_id} at position {position}")
+
     def odom_callback(self, msg):
         self.position = msg.pose.pose.position
         # Convert quaternion to Euler angles
@@ -231,13 +249,23 @@ class RobotController(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    controller = RobotController('tb3_0')  # Change namespace as needed
+    
+    # Get namespace from command line or use default
+    namespace = 'tb3_0'
+    for arg in args if args else []:
+        if arg.startswith('namespace:='):
+            namespace = arg.split(':=')[1]
+    
+    controller = RobotController(namespace)
     
     try:
-        controller.explore_environment()
+        rclpy.spin(controller)
     except Exception as e:
         print(f"Error: {e}")
     finally:
+        # Stop the robot before shutting down
+        stop_msg = Twist()
+        controller.cmd_vel_pub.publish(stop_msg)
         controller.destroy_node()
         rclpy.shutdown()
 
