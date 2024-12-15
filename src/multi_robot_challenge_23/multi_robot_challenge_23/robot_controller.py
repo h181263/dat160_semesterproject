@@ -22,24 +22,32 @@ class RobotController(Node):
         
         self.get_logger().info(f"Initializing controller for {self.namespace}")
         
-        # Publishers
+        # Publishers - using absolute topic names
         self.cmd_vel_pub = self.create_publisher(
-            Twist, f'{self.namespace}/cmd_vel', 10)  # Remove leading '/'
+            Twist, f'/{self.namespace}/cmd_vel', 10)
         self.fire_pub = self.create_publisher(
-            String, 'big_fire_location', 10)  # Remove leading '/'
+            String, '/big_fire_location', 10)
             
-        # Subscribers
+        # Subscribers - using absolute topic names
         self.odom_sub = self.create_subscription(
-            Odometry, f'{self.namespace}/odom', self.odom_callback, 10)
+            Odometry, f'/{self.namespace}/odom', self.odom_callback, 10)
         self.scan_sub = self.create_subscription(
-            LaserScan, f'{self.namespace}/scan', self.scan_callback, 10)
+            LaserScan, f'/{self.namespace}/scan', self.scan_callback, 10)
         self.fire_sub = self.create_subscription(
-            String, 'big_fire_location', self.fire_callback, 10)
+            String, '/big_fire_location', self.fire_callback, 10)
         self.marker_pose_sub = self.create_subscription(
-            Pose, f'{self.namespace}/marker_map_pose', self.marker_pose_callback, 10)
+            Pose, f'/{self.namespace}/marker_map_pose', self.marker_pose_callback, 10)
         self.marker_id_sub = self.create_subscription(
-            Int64, f'{self.namespace}/marker_id', self.marker_id_callback, 10)
+            Int64, f'/{self.namespace}/marker_id', self.marker_id_callback, 10)
             
+        # Add debug messages
+        self.get_logger().info(f"Publishing to cmd_vel: /{self.namespace}/cmd_vel")
+        self.get_logger().info(f"Subscribing to odom: /{self.namespace}/odom")
+        self.get_logger().info(f"Subscribing to scan: /{self.namespace}/scan")
+        
+        # Test movement
+        self.create_timer(0.1, self.test_movement)  # Add a test movement timer
+        
         # Service client for marker reporting
         self.marker_client = self.create_client(
             SetMarkerPosition, 'set_marker_position')
@@ -287,6 +295,13 @@ class RobotController(Node):
         # Publish movement command
         self.get_logger().debug(f"{self.namespace}: Publishing twist: linear={twist.linear.x:.2f}, angular={twist.angular.z:.2f}")
         self.cmd_vel_pub.publish(twist)
+
+    def test_movement(self):
+        """Test function to verify basic movement"""
+        twist = Twist()
+        twist.linear.x = 0.1  # Try to move forward slowly
+        self.cmd_vel_pub.publish(twist)
+        self.get_logger().info(f"{self.namespace}: Testing movement...")
 
 def main(args=None):
     rclpy.init(args=args)
