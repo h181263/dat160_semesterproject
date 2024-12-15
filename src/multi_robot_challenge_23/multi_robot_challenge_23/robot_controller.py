@@ -219,6 +219,11 @@ class RobotController(Node):
         self.new_marker_detected = True
         self.get_logger().info(f"{self.namespace} detected marker at position: x={msg.position.x:.2f}, y={msg.position.y:.2f}")
 
+    def marker_id_callback(self, msg):
+        """Callback for receiving marker IDs"""
+        self.current_marker_id = msg.data
+        self.get_logger().info(f"{self.namespace} detected marker ID: {msg.data}")
+
 def main(args=None):
     rclpy.init(args=args)
     controller = RobotController()  # Change namespace as needed
