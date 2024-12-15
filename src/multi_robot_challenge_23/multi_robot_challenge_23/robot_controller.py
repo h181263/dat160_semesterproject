@@ -42,18 +42,31 @@ class RobotController(Node):
         self.current_marker_id = None
         self.reported_markers = set()
         
-        # Wall following states
-        self.state = 0
+        # Enhanced state machine
         self.state_dict = {
-            0: 'find the wall',
-            1: 'turn',
-            2: 'follow the wall',
-            3: 'corner escape',
-            4: 'wall end recovery',
+            0: 'wall_following',
+            1: 'room_exploration',
+            2: 'corridor_following',
+            3: 'corner_handling',
+            4: 'room_entry',
+            5: 'backtracking'
         }
+        self.state = 0
         
-        # Direction modifier based on robot ID (mirrored behavior)
-        self.direction_modifier = -1 if self.namespace == 'tb3_0' else 1
+        # Exploration tracking
+        self.visited_areas = set()  # Track explored areas
+        self.current_room = 0
+        self.unexplored_entrances = []  # Track potential room entrances
+        self.last_positions = []  # Track recent positions for stuck detection
+        self.room_entry_points = []  # Track where we entered rooms
+        
+        # Different behaviors for each robot
+        if self.namespace == 'tb3_0':
+            self.exploration_direction = 'right'  # Explore right side of maze
+            self.wall_side = 'right'
+        else:
+            self.exploration_direction = 'left'   # Explore left side of maze
+            self.wall_side = 'left'
         
         # Region definitions
         self.regions = {
@@ -223,34 +236,113 @@ class RobotController(Node):
         msg.angular.z = 0.8 * self.direction_modifier  # Make a wider turn to find next wall
         return msg
 
+    def detect_room_entrance(self):
+        """Detect potential room entrances"""
+        if self.wall_side == 'right':
+            if self.regions['left'] > 2.0 and self.regions['diagonal_left'] > 2.0:
+                entrance_point = (self.position.x, self.position.y)
+                if entrance_point not in self.unexplored_entrances:
+                    self.unexplored_entrances.append(entrance_point)
+        else:
+            if self.regions['right'] > 2.0 and self.regions['diagonal_right'] > 2.0:
+                entrance_point = (self.position.x, self.position.y)
+                if entrance_point not in self.unexplored_entrances:
+                    self.unexplored_entrances.append(entrance_point)
+
+    def room_exploration(self):
+        """Systematic room exploration pattern"""
+        msg = Twist()
+        
+        # Spiral pattern for room exploration
+        if self.regions['front'] > 1.0:
+            msg.linear.x = 0.2
+            msg.angular.z = 0.2 * self.direction_modifier
+        else:
+            self.change_state(3)  # Corner handling
+        
+        return msg
+
+    def corridor_following(self):
+        """Enhanced corridor navigation"""
+        msg = Twist()
+        
+        # Center in corridor
+        if self.wall_side == 'right':
+            error = self.regions['left'] - self.regions['right']
+        else:
+            error = self.regions['right'] - self.regions['left']
+        
+        msg.linear.x = 0.2
+        msg.angular.z = 0.5 * error
+        
+        return msg
+
+    def check_if_stuck(self):
+        """Enhanced stuck detection"""
+        if len(self.last_positions) < 10:
+            self.last_positions.append((self.position.x, self.position.y))
+            return False
+        
+        self.last_positions = self.last_positions[-10:]
+        total_movement = 0
+        for i in range(len(self.last_positions)-1):
+            dx = self.last_positions[i+1][0] - self.last_positions[i][0]
+            dy = self.last_positions[i+1][1] - self.last_positions[i][1]
+            total_movement += math.sqrt(dx*dx + dy*dy)
+        
+        return total_movement < 0.1  # Stuck if total movement is small
+
+    def backtrack_to_unexplored(self):
+        """Return to nearest unexplored entrance"""
+        if not self.unexplored_entrances:
+            return self.wall_following()
+        
+        # Get nearest unexplored entrance
+        target = min(self.unexplored_entrances, 
+                    key=lambda p: ((p[0]-self.position.x)**2 + (p[1]-self.position.y)**2))
+        
+        msg = Twist()
+        angle_to_target = math.atan2(target[1]-self.position.y, target[0]-self.position.x)
+        angle_diff = self.normalize_angle(angle_to_target - self.yaw)
+        
+        if abs(angle_diff) > 0.1:
+            msg.angular.z = 0.3 if angle_diff > 0 else -0.3
+        else:
+            msg.linear.x = 0.2
+        
+        return msg
+
     def control_loop(self):
         if not self.scan_data:
             return
+
+        # Update exploration tracking
+        self.detect_room_entrance()
+        current_area = (int(self.position.x * 2) / 2, int(self.position.y * 2) / 2)
+        self.visited_areas.add(current_area)
         
-        if 4 in self.reported_markers:
-            msg = Twist()
-            self.cmd_vel_pub.publish(msg)
-            return
-
+        # Check if stuck
+        if self.check_if_stuck():
+            self.change_state(5)  # Backtracking
+        
         msg = Twist()
-        if self.state == 0:
-            msg = self.find_wall()
-        elif self.state == 1:
-            msg = self.turn()
-        elif self.state == 2:
-            msg = self.follow_the_wall()
-        elif self.state == 3:
+        if self.state == 0:  # Wall following
+            msg = self.wall_following()
+        elif self.state == 1:  # Room exploration
+            msg = self.room_exploration()
+        elif self.state == 2:  # Corridor following
+            msg = self.corridor_following()
+        elif self.state == 3:  # Corner handling
             msg = self.corner_escape()
-        elif self.state == 4:
-            msg = self.wall_end_recovery()
-        else:
-            self.get_logger().error(f"{self.namespace} - Unknown state!")
-            return
-
+        elif self.state == 4:  # Room entry
+            msg = self.room_entry()
+        elif self.state == 5:  # Backtracking
+            msg = self.backtrack_to_unexplored()
+        
         # Add speed limits
         msg.linear.x = max(-0.3, min(0.3, msg.linear.x))
         msg.angular.z = max(-1.0, min(1.0, msg.angular.z))
-
+        
         self.cmd_vel_pub.publish(msg)
 
 def main(args=None):
