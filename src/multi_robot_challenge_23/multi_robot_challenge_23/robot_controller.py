@@ -1,13 +1,13 @@
 import rclpy
 from rclpy.node import Node
 from nav_msgs.msg import Odometry
-from geometry_msgs.msg import Twist, Point
+from geometry_msgs.msg import Twist, Point, Pose, PoseStamped
 from sensor_msgs.msg import LaserScan
 from scoring_interfaces.srv import SetMarkerPosition
 from tf_transformations import euler_from_quaternion
 import math
 import numpy as np
-from std_msgs.msg import String
+from std_msgs.msg import String, Int64
 import json
 
 class RobotController(Node):
@@ -215,34 +215,14 @@ class RobotController(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    
-    # Create two controllers with different namespaces
-    controller_0 = RobotController()
-    controller_1 = RobotController()
+    controller = RobotController()  # Change namespace as needed
     
     try:
-        # Use MultiThreadedExecutor to run both controllers
-        from rclpy.executors import MultiThreadedExecutor
-        executor = MultiThreadedExecutor()
-        executor.add_node(controller_0)
-        executor.add_node(controller_1)
-        
-        try:
-            executor.spin()
-        finally:
-            executor.shutdown()
-            
+        controller.explore_environment()
     except Exception as e:
         print(f"Error: {e}")
     finally:
-        # Stop both robots
-        stop_msg = Twist()
-        controller_0.cmd_vel_pub.publish(stop_msg)
-        controller_1.cmd_vel_pub.publish(stop_msg)
-        
-        # Cleanup
-        controller_0.destroy_node()
-        controller_1.destroy_node()
+        controller.destroy_node()
         rclpy.shutdown()
 
 if __name__ == '__main__':
