@@ -16,5 +16,7 @@ ros2 launch multi_robot_challenge_23 controller.launch.py
 ```
 
 ### YouTube Video: 
-[Link: Se video fra siste gjennomkjøring](https://www.youtube.com/watch?v=G3LpK3-0h90)
+[Link: Se video fra gjennomkjøring](https://www.youtube.com/watch?v=G3LpK3-0h90)
+[Link: Se video fra gjennomkjøring,10 min](https://www.youtube.com/watch?v=4ZOCF9Cy6i0&feature=youtu.be)
+
 
