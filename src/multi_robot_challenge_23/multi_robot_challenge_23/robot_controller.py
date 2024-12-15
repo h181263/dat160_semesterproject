@@ -80,6 +80,9 @@ class RobotController(Node):
         self.stuck_threshold = 0.01
         self.stuck_time_threshold = 10  # Reduced for faster response
         
+        # Create timer for movement control
+        self.create_timer(0.1, self.exploration_callback)  # 10Hz control loop
+        
     def odom_callback(self, msg):
         self.position = msg.pose.pose.position
         # Convert quaternion to Euler angles
@@ -241,90 +244,45 @@ class RobotController(Node):
         self.get_logger().info(f"{self.namespace} detected marker ID: {msg.data}")
 
     def exploration_callback(self):
-        """Main control loop"""
-        if not self.scan_data or self.position is None:
-            self.get_logger().warn(f"{self.namespace}: Waiting for sensor data...")
+        """Main control loop with simple, direct control"""
+        if not self.scan_data:
             return
 
         twist = Twist()
         
-        # Convert inf readings to max range and get scan data
-        ranges = [min(x, 10.0) if not math.isinf(x) else 10.0 for x in self.scan_data]
+        # Simple array of laser readings (convert inf to 10.0)
+        ranges = [min(10.0, x) if not math.isinf(x) else 10.0 for x in self.scan_data]
         
-        # Get critical distances
-        front_center = min(ranges[175:185])
-        front_left = min(ranges[150:175])
-        front_right = min(ranges[185:210])
-        left = min(ranges[60:120])
-        right = min(ranges[240:300])
+        # Get the minimum distance in front sector (wider angle)
+        front_distance = min(ranges[150:210])  # 60-degree arc in front
         
-        # Debug logging
-        self.get_logger().info(
-            f"{self.namespace} distances - Front: {front_center:.2f}, "
-            f"FL: {front_left:.2f}, FR: {front_right:.2f}, "
-            f"L: {left:.2f}, R: {right:.2f}"
-        )
+        self.get_logger().info(f"{self.namespace} - Front distance: {front_distance}")
 
-        # STOP if about to hit something
-        if front_center < 0.3 or front_left < 0.3 or front_right < 0.3:
-            self.get_logger().warn(f"{self.namespace}: EMERGENCY STOP!")
-            
-            # Aggressive backup and turn
-            twist.linear.x = -0.2
-            if left > right:
-                twist.angular.z = 1.5  # Sharp left turn
-            else:
-                twist.angular.z = -1.5  # Sharp right turn
-                
-            self.cmd_vel_pub.publish(twist)
-            return
-
-        # Check if we're too close to any wall
-        too_close = front_center < 0.5 or front_left < 0.4 or front_right < 0.4
-        
-        if too_close:
-            self.get_logger().info(f"{self.namespace}: Too close to wall, avoiding...")
-            # Stop and turn
+        # Very simple logic:
+        # If something is close in front, turn
+        # Otherwise, move forward
+        if front_distance < 0.5:  # If obstacle is closer than 0.5 meters
+            # Stop forward motion
             twist.linear.x = 0.0
             
-            # Determine escape direction
-            if left > right:
-                twist.angular.z = 1.0  # Turn left
-            else:
-                twist.angular.z = -1.0  # Turn right
-                
-        else:
-            # Normal exploration mode
-            twist.linear.x = 0.1  # Very conservative forward speed
+            # Decide turn direction based on left vs right distances
+            left_side = min(ranges[60:150])   # Left 90 degrees
+            right_side = min(ranges[210:300])  # Right 90 degrees
             
-            # Active wall avoidance
-            if left < 0.6:  # Increased safety margin
-                twist.angular.z = -0.5  # Turn right
-            elif right < 0.6:  # Increased safety margin
-                twist.angular.z = 0.5  # Turn left
+            # Turn away from the closest side
+            if left_side < right_side:
+                twist.angular.z = -1.0  # Turn right
+                self.get_logger().info(f"{self.namespace} - Turning right")
             else:
-                # Random wandering with bias
-                if np.random.random() < 0.1:  # 10% chance to change direction
-                    twist.angular.z = (np.random.random() - 0.5) * 0.5
-        
-        # Additional stuck detection
-        if self.check_if_stuck():
-            self.get_logger().warn(f"{self.namespace}: Stuck detected!")
-            # Very aggressive recovery
-            twist.linear.x = -0.2
-            twist.angular.z = 2.0 if np.random.random() > 0.5 else -2.0
-            self.stuck_counter = 0  # Reset stuck counter
-        
-        # Ensure we're not exceeding speed limits
-        twist.linear.x = max(-0.2, min(0.2, twist.linear.x))
-        twist.angular.z = max(-2.0, min(2.0, twist.angular.z))
-        
-        # Debug movement commands
-        self.get_logger().info(
-            f"{self.namespace} movement - Linear: {twist.linear.x:.2f}, "
-            f"Angular: {twist.angular.z:.2f}"
-        )
-        
+                twist.angular.z = 1.0   # Turn left
+                self.get_logger().info(f"{self.namespace} - Turning left")
+        else:
+            # No close obstacles, move forward
+            twist.linear.x = 0.1
+            twist.angular.z = 0.0
+            self.get_logger().info(f"{self.namespace} - Moving forward")
+
+        # Publish the movement command
         self.cmd_vel_pub.publish(twist)
 
     def check_if_stuck(self):
