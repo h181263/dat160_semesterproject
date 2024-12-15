@@ -144,7 +144,7 @@ class RobotController(Node):
             # Basic wall following with periodic marker search
             if self.regions['front'] > 0.5:
                 msg.linear.x = 0.15
-                if self.namespace == 'tb3_0':  # Right wall follower
+                if self.namespace == 'tb3_1':  # Right wall follower
                     if self.regions['right'] > 0.4:
                         msg.angular.z = -0.2
                     elif self.regions['right'] < 0.3:
@@ -156,7 +156,7 @@ class RobotController(Node):
                         msg.angular.z = -0.2
             else:
                 msg.linear.x = 0.0
-                msg.angular.z = 0.5 if self.namespace == 'tb3_0' else -0.5
+                msg.angular.z = 0.5 if self.namespace == 'tb3_1' else -0.5
                 self.state = 'search_marker'
                 self.search_timer = 0.0
 
