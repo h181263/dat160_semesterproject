@@ -17,6 +17,19 @@ class MarkerHandler:
         while not self.score_client.wait_for_service(timeout_sec=1.0):
             node.get_logger().info('Waiting for scoring service...')
 
+    def clbk_lidar(self, msg):
+        self.lidar_value = msg.ranges[180]
+        if self.lidar_value < 2.0:
+            if not self.big_fire_detected:
+                self.big_fire_detected = True
+                self.publish_big_fire_location()
+
+    def publish_big_fire_location(self):
+        # Publish fire location on shared topic
+        location_msg = Point(x=self.lidar_value, y=..., z=0.0)
+        self.big_fire_pub.publish(location_msg)
+
+
     def handle_marker(self, robot_id, marker_id, marker_pose):
         if marker_id in self.reported_markers:
             return

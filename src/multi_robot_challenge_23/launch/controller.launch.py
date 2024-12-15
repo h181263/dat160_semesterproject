@@ -5,6 +5,15 @@ def generate_launch_description():
     return launch.LaunchDescription([
         launch_ros.actions.Node(
             package='multi_robot_challenge_23',
+            executable='leader',
+            name='leader_node'),
+        launch_ros.actions.Node(
+            package='multi_robot_challenge_23',
+            executable='robot_handler',
+            namespace='tb3_0',
+            name='robot_handler'),
+        launch_ros.actions.Node(
+            package='multi_robot_challenge_23',
             executable='report_marker',
             namespace='tb3_0',
             name='report_marker'),
@@ -27,19 +36,4 @@ def generate_launch_description():
             package='scoring',
             executable='scoring',
             name='scoring'),
-        # launch_ros.actions.Node(
-        #     package='multi_robot_challenge_23',
-        #     executable='bug2',
-        #     namespace='tb3_0',
-        #     name='bug2'),
-        # launch_ros.actions.Node(
-        #     package='multi_robot_challenge_23',
-        #     executable='goToPoint',
-        #     namespace='tb3_0',
-        #     name='goToPoint'),
-        # launch_ros.actions.Node(
-        #     package='multi_robot_challenge_23',
-        #     executable='wallFollower',
-        #     namespace='tb3_0',
-        #     name='wallFollower'),
     ])

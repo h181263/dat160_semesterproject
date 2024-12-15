@@ -33,6 +33,10 @@ setup(
             'bug2 = multi_robot_challenge_23.bug2:main', 
             'goToPoint = multi_robot_challenge_23.goToPoint:main', 
             'wallFollower = multi_robot_challenge_23.wallFollower:main',   
+            'leader = multi_robot_challenge_23.leader:main',
+            'robot_handler = multi_robot_challenge_23.robot_handler:main',
+            'scoring = multi_robot_challenge_23.scoring:main',
+            'marker_pose = multi_robot_challenge_23.marker_pose:main',
         ],
     },
 )
