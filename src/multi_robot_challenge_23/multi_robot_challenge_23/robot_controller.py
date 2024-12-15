@@ -213,15 +213,24 @@ class RobotController(Node):
             self.rotate_to_heading(self.orientation + math.pi/4)
             rclpy.spin_once(self, timeout_sec=0.1)
 
+    def marker_pose_callback(self, msg):
+        """Callback for receiving marker poses"""
+        self.current_marker_pose = msg
+        self.new_marker_detected = True
+        self.get_logger().info(f"{self.namespace} detected marker at position: x={msg.position.x:.2f}, y={msg.position.y:.2f}")
+
 def main(args=None):
     rclpy.init(args=args)
     controller = RobotController()  # Change namespace as needed
     
     try:
-        controller.explore_environment()
+        rclpy.spin(controller)
     except Exception as e:
         print(f"Error: {e}")
     finally:
+        # Stop the robot before shutting down
+        stop_msg = Twist()
+        controller.cmd_vel_pub.publish(stop_msg)
         controller.destroy_node()
         rclpy.shutdown()
 
