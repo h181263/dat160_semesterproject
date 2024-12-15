@@ -39,28 +39,34 @@ class RobotController(Node):
             2: 'follow the wall',
         }
         
-        # Region definitions like in wall_follower
+        # Region definitions
         self.regions = {
-            'right': 0.0,
-            'fright': 0.0,
-            'front': 0.0,
-            'fleft': 0.0,
-            'left': 0.0,
+            'right': 10.0,
+            'fright': 10.0,
+            'front': 10.0,
+            'fleft': 10.0,
+            'left': 10.0,
         }
         
         # Create timer for movement control
         self.create_timer(0.1, self.control_loop)
+        self.get_logger().info(f"{self.namespace} - Initialization complete")
 
     def scan_callback(self, msg):
-        # Adapt wall_follower's region detection
-        self.regions = {
-            'right':  min(min(msg.ranges[180:299]), 1.0),
-            'fright': min(min(msg.ranges[320:339]), 1.0),
-            'front':  min(min(min(msg.ranges[0:9]), min(msg.ranges[350:359])),1.0),
-            'fleft':  min(min(msg.ranges[20:39]), 1.0),
-            'left':   min(min(msg.ranges[60:179]), 1.0),
-        }
-        self.take_action()
+        self.scan_data = msg.ranges
+        # Update regions with safety checks
+        try:
+            self.regions = {
+                'right':  min(min([x for x in msg.ranges[180:299] if not math.isinf(x)], default=10.0), 10.0),
+                'fright': min(min([x for x in msg.ranges[320:339] if not math.isinf(x)], default=10.0), 10.0),
+                'front':  min(min([x for x in msg.ranges[0:9] + msg.ranges[350:359] if not math.isinf(x)], default=10.0), 10.0),
+                'fleft':  min(min([x for x in msg.ranges[20:39] if not math.isinf(x)], default=10.0), 10.0),
+                'left':   min(min([x for x in msg.ranges[60:179] if not math.isinf(x)], default=10.0), 10.0),
+            }
+            self.get_logger().debug(f"{self.namespace} - Regions: {self.regions}")
+            self.take_action()
+        except Exception as e:
+            self.get_logger().error(f"{self.namespace} - Error in scan_callback: {str(e)}")
 
     def odom_callback(self, msg):
         self.position = msg.pose.pose.position
@@ -80,6 +86,9 @@ class RobotController(Node):
     def take_action(self):
         regions = self.regions
         d = 0.7  # Distance threshold
+
+        self.get_logger().info(f"{self.namespace} - Current state: {self.state_dict[self.state]}")
+        self.get_logger().info(f"{self.namespace} - Distances - Front: {regions['front']:.2f}, Left: {regions['left']:.2f}, Right: {regions['right']:.2f}")
 
         if regions['front'] > d and regions['fleft'] > d and regions['fright'] > d:
             state_description = 'case 1 - nothing'
@@ -107,6 +116,8 @@ class RobotController(Node):
             self.change_state(0)
         else:
             state_description = 'unknown case'
+        
+        self.get_logger().info(f"{self.namespace} - {state_description}")
 
     def find_wall(self):
         msg = Twist()
@@ -126,18 +137,25 @@ class RobotController(Node):
 
     def control_loop(self):
         if not self.scan_data:
+            self.get_logger().warn(f"{self.namespace} - No scan data available")
             return
         
         msg = Twist()
         if self.state == 0:
             msg = self.find_wall()
+            self.get_logger().info(f"{self.namespace} - Finding wall")
         elif self.state == 1:
             msg = self.turn_left()
+            self.get_logger().info(f"{self.namespace} - Turning left")
         elif self.state == 2:
             msg = self.follow_the_wall()
+            self.get_logger().info(f"{self.namespace} - Following wall")
         else:
-            self.get_logger().error('Unknown state!')
+            self.get_logger().error(f"{self.namespace} - Unknown state!")
+            return
 
+        # Debug movement commands
+        self.get_logger().info(f"{self.namespace} - Publishing velocity - Linear: {msg.linear.x:.2f}, Angular: {msg.angular.z:.2f}")
         self.cmd_vel_pub.publish(msg)
 
 def main(args=None):
