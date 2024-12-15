@@ -79,24 +79,38 @@ class RobotController(Node):
 
     def aruco_callback(self, msg):
         """Handle ArUco marker detection"""
-        if not msg.marker_ids or msg.marker_ids[0] in self.reported_markers:
+        if not msg.marker_ids:
+            return
+            
+        marker_id = msg.marker_ids[0]
+        self.get_logger().info(f"{self.namespace} - Detected marker {marker_id}")
+        
+        if marker_id in self.reported_markers:
+            self.get_logger().info(f"{self.namespace} - Marker {marker_id} already reported")
             return
             
         self.current_marker = {
-            'id': msg.marker_ids[0],
+            'id': marker_id,
             'pose': msg.poses[0]
         }
         self.state = 'verify_marker'
-        self.get_logger().info(f"Found marker {self.current_marker['id']}")
+        self.get_logger().info(f"{self.namespace} - Processing new marker {marker_id}")
 
     def report_marker(self):
         """Report marker to scoring system"""
-        if not self.current_marker or not self.marker_client.wait_for_service(timeout_sec=1.0):
+        if not self.current_marker:
+            self.get_logger().warn(f"{self.namespace} - No marker to report")
+            return False
+        
+        if not self.marker_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().error(f"{self.namespace} - Marker service not available")
             return False
             
         request = SetMarkerPosition.Request()
         request.marker_id = self.current_marker['id']
         request.marker_position = self.current_marker['pose'].position
+        
+        self.get_logger().info(f"{self.namespace} - Reporting marker {request.marker_id} at position: x={request.marker_position.x:.2f}, y={request.marker_position.y:.2f}, z={request.marker_position.z:.2f}")
         
         future = self.marker_client.call_async(request)
         future.add_done_callback(self.marker_response_callback)
@@ -108,11 +122,11 @@ class RobotController(Node):
             response = future.result()
             if response.accepted:
                 self.reported_markers.add(self.current_marker['id'])
-                self.get_logger().info(f"Successfully reported marker {self.current_marker['id']}")
+                self.get_logger().info(f"{self.namespace} - Successfully reported marker {self.current_marker['id']}")
             else:
-                self.get_logger().warn(f"Marker {self.current_marker['id']} report rejected")
+                self.get_logger().warn(f"{self.namespace} - Marker {self.current_marker['id']} report rejected - Position might be inaccurate")
         except Exception as e:
-            self.get_logger().error(f"Service call failed: {str(e)}")
+            self.get_logger().error(f"{self.namespace} - Service call failed: {str(e)}")
         
         self.current_marker = None
         self.state = 'explore'
@@ -128,7 +142,11 @@ class RobotController(Node):
             # Stop and verify marker
             msg.linear.x = 0.0
             msg.angular.z = 0.0
+            self.get_logger().info(f"{self.namespace} - Verifying marker...")
             if self.report_marker():
+                self.get_logger().info(f"{self.namespace} - Marker report sent")
+            else:
+                self.get_logger().warn(f"{self.namespace} - Failed to report marker")
                 self.state = 'explore'
         
         elif self.state == 'search_marker':
