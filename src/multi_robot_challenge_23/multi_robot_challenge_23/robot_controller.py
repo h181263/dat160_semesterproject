@@ -1,41 +1,44 @@
 import rclpy
 from rclpy.node import Node
 from nav_msgs.msg import Odometry
-from geometry_msgs.msg import Twist, Point, Pose
+from geometry_msgs.msg import Twist, Point
 from sensor_msgs.msg import LaserScan
 from scoring_interfaces.srv import SetMarkerPosition
-from std_msgs.msg import String, Int64
 from tf_transformations import euler_from_quaternion
 import math
 import numpy as np
+from std_msgs.msg import String
 import json
 
 class RobotController(Node):
     def __init__(self):
-        # Get namespace from node name
-        namespace = rclpy.get_namespace().strip('/')
-        super().__init__(f'{namespace}_controller')
+        # Initialize with a default namespace first
+        super().__init__('robot_controller')
         
-        self.namespace = namespace
-        self.get_logger().info(f"Initializing controller for {namespace}")
+        # Get the actual namespace from ROS
+        self.namespace = self.get_namespace().strip('/')
+        if not self.namespace:  # If empty, use default
+            self.namespace = 'tb3_0'
+        
+        self.get_logger().info(f"Initializing controller for {self.namespace}")
         
         # Publishers
         self.cmd_vel_pub = self.create_publisher(
-            Twist, f'/{namespace}/cmd_vel', 10)
+            Twist, f'{self.namespace}/cmd_vel', 10)  # Remove leading '/'
         self.fire_pub = self.create_publisher(
-            String, '/big_fire_location', 10)
+            String, 'big_fire_location', 10)  # Remove leading '/'
             
         # Subscribers
         self.odom_sub = self.create_subscription(
-            Odometry, f'/{namespace}/odom', self.odom_callback, 10)
+            Odometry, f'{self.namespace}/odom', self.odom_callback, 10)
         self.scan_sub = self.create_subscription(
-            LaserScan, f'/{namespace}/scan', self.scan_callback, 10)
+            LaserScan, f'{self.namespace}/scan', self.scan_callback, 10)
         self.fire_sub = self.create_subscription(
-            String, '/big_fire_location', self.fire_callback, 10)
+            String, 'big_fire_location', self.fire_callback, 10)
         self.marker_pose_sub = self.create_subscription(
-            Pose, f'/{namespace}/marker_map_pose', self.marker_pose_callback, 10)
+            Pose, f'{self.namespace}/marker_map_pose', self.marker_pose_callback, 10)
         self.marker_id_sub = self.create_subscription(
-            Int64, f'/{namespace}/marker_id', self.marker_id_callback, 10)
+            Int64, f'{self.namespace}/marker_id', self.marker_id_callback, 10)
             
         # Service client for marker reporting
         self.marker_client = self.create_client(
@@ -43,198 +46,40 @@ class RobotController(Node):
             
         # Robot state
         self.position = Point()
-        self.orientation = 0.0
+        self.orientation = 0.0  # yaw in radians
         self.scan_data = None
-        self.current_marker_pose = None
-        self.current_marker_id = None
-        self.new_marker_detected = False
-        self.is_exploring = False
-        self.stuck_counter = 0
-        self.last_position = Point()
-        self.recovery_mode = False
-        self.recovery_start_time = None
-        
-        # Movement parameters
+        self.frontiers = []
+        self.visited_points = []
+        self.big_fire_location = None
         self.linear_speed = 0.2
         self.angular_speed = 0.5
-        self.min_front_distance = 0.5
-        self.stuck_threshold = 0.01  # Minimum movement to not be considered stuck
-        self.stuck_time_threshold = 20  # Number of iterations before considering stuck
+        self.distance_threshold = 0.3
+        self.angle_threshold = 0.1
         
-        # Create a timer for exploration
-        self.create_timer(0.1, self.exploration_callback)  # 10Hz update rate
-
+        # Map boundaries (from map yaml files)
+        self.map_bounds = {
+            'x_min': -10.0,
+            'x_max': 10.0,
+            'y_min': -10.0,
+            'y_max': 10.0
+        }
+        
     def odom_callback(self, msg):
         self.position = msg.pose.pose.position
+        # Convert quaternion to Euler angles
         orientation_q = msg.pose.pose.orientation
-        _, _, self.orientation = euler_from_quaternion([
-            orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w])
-
+        _, _, self.orientation = euler_from_quaternion(
+            [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w])
+        
     def scan_callback(self, msg):
         self.scan_data = msg.ranges
-
-    def marker_pose_callback(self, msg):
-        self.current_marker_pose = msg
-        self.new_marker_detected = True
-
-    def marker_id_callback(self, msg):
-        self.current_marker_id = msg.data
-
+        
     def fire_callback(self, msg):
-        """Handle big fire coordination between robots"""
-        if not self.current_marker_id == 4:  # Only handle if we're not already at fire
-            try:
-                fire_data = json.loads(msg.data)
-                fire_position = Point()
-                fire_position.x = fire_data['x']
-                fire_position.y = fire_data['y']
-                
-                # Calculate distance to fire
-                distance_to_fire = math.sqrt(
-                    (self.position.x - fire_position.x) ** 2 +
-                    (self.position.y - fire_position.y) ** 2
-                )
-                
-                # If within range of fire
-                if distance_to_fire < 2.0:
-                    # Similar to leader.py's lidar value check
-                    if self.scan_data:
-                        front_distance = self.scan_data[180]  # Center reading
-                        if front_distance < 2.0:
-                            self.get_logger().info(f"{self.namespace} detected another robot near fire")
-                            # Report marker 4 (big fire) when both robots are present
-                            self.report_marker(4, fire_position)
-                else:
-                    # Move towards fire location
-                    self.get_logger().info(f"{self.namespace} moving to fire location")
-                    twist = Twist()
-                    
-                    # Calculate angle to fire
-                    angle_to_fire = math.atan2(
-                        fire_position.y - self.position.y,
-                        fire_position.x - self.position.x
-                    )
-                    
-                    # Rotate and move towards fire
-                    angle_diff = angle_to_fire - self.orientation
-                    if abs(angle_diff) > 0.1:
-                        twist.angular.z = 0.3 if angle_diff > 0 else -0.3
-                    else:
-                        twist.linear.x = 0.2
-                    
-                    self.cmd_vel_pub.publish(twist)
-                    
-            except json.JSONDecodeError:
-                self.get_logger().error("Failed to parse fire location message")
-
-    def check_if_stuck(self):
-        if not hasattr(self.last_position, 'x'):
-            self.last_position = self.position
-            return False
-
-        distance_moved = math.sqrt(
-            (self.position.x - self.last_position.x) ** 2 +
-            (self.position.y - self.last_position.y) ** 2
-        )
-
-        if distance_moved < self.stuck_threshold:
-            self.stuck_counter += 1
-        else:
-            self.stuck_counter = 0
-            self.recovery_mode = False
-
-        self.last_position = self.position
-        return self.stuck_counter > self.stuck_time_threshold
-
-    def get_safe_direction(self):
-        if not self.scan_data:
-            return 0.0
-
-        # Convert inf readings to max range
-        ranges = [min(x, 10.0) if not math.isinf(x) else 10.0 for x in self.scan_data]
+        fire_data = json.loads(msg.data)
+        self.big_fire_location = Point()
+        self.big_fire_location.x = fire_data['x']
+        self.big_fire_location.y = fire_data['y']
         
-        # Find the longest range sector
-        sector_size = 30
-        num_sectors = len(ranges) // sector_size
-        sector_ranges = []
-        
-        for i in range(num_sectors):
-            start_idx = i * sector_size
-            end_idx = start_idx + sector_size
-            sector_ranges.append(sum(ranges[start_idx:end_idx]) / sector_size)
-        
-        best_sector = sector_ranges.index(max(sector_ranges))
-        return (best_sector - num_sectors//2) * sector_size * (math.pi / 180.0)
-
-    def exploration_callback(self):
-        """Main control loop"""
-        if not self.scan_data or self.position is None:
-            return  # Wait for sensor data
-            
-        if not self.is_exploring:
-            self.is_exploring = True
-            self.get_logger().info(f"{self.namespace} starting exploration")
-        
-        twist = Twist()
-        
-        # Check if stuck
-        if self.check_if_stuck():
-            if not self.recovery_mode:
-                self.recovery_mode = True
-                self.get_logger().info(f"{self.namespace} is stuck, entering recovery mode")
-            
-            # Recovery behavior
-            safe_direction = self.get_safe_direction()
-            twist.linear.x = -0.1  # Back up slowly
-            twist.angular.z = self.angular_speed * (1 if safe_direction > 0 else -1)
-            
-        else:
-            # Normal exploration
-            if self.scan_data:
-                # Check front arc for obstacles
-                front_arc = self.scan_data[-45:] + self.scan_data[:45]
-                min_front_distance = min([x for x in front_arc if not math.isinf(x)], default=10)
-                
-                # Check side arcs for wall following
-                left_arc = min([x for x in self.scan_data[60:120] if not math.isinf(x)], default=10)
-                right_arc = min([x for x in self.scan_data[-120:-60] if not math.isinf(x)], default=10)
-                
-                if min_front_distance > self.min_front_distance:
-                    twist.linear.x = self.linear_speed
-                    # Wall following behavior
-                    if left_arc < 1.0:  # If wall on left
-                        twist.angular.z = -0.2  # Turn slightly right
-                    elif right_arc < 1.0:  # If wall on right
-                        twist.angular.z = 0.2  # Turn slightly left
-                else:
-                    # Find best direction to turn
-                    safe_direction = self.get_safe_direction()
-                    twist.angular.z = self.angular_speed * (1 if safe_direction > 0 else -1)
-        
-        self.cmd_vel_pub.publish(twist)
-        
-        # Check for markers
-        if self.detect_marker():
-            marker_id, position = self.get_marker_info()
-            if marker_id is not None and position is not None:
-                self.report_marker(marker_id, position)
-                self.get_logger().info(f"Reported marker {marker_id} at position {position}")
-
-    def detect_marker(self):
-        if self.new_marker_detected:
-            self.new_marker_detected = False
-            return True
-        return False
-
-    def get_marker_info(self):
-        if self.current_marker_pose and self.current_marker_id is not None:
-            marker_position = Point()
-            marker_position.x = self.current_marker_pose.position.x
-            marker_position.y = self.current_marker_pose.position.y
-            marker_position.z = self.current_marker_pose.position.z
-            return self.current_marker_id, marker_position
-        return None, None
-
     def report_marker(self, marker_id, position):
         request = SetMarkerPosition.Request()
         request.marker_id = marker_id
@@ -242,20 +87,162 @@ class RobotController(Node):
         
         future = self.marker_client.call_async(request)
         return future
+        
+    def get_next_frontier(self):
+        if not self.scan_data:
+            return None
+            
+        # Convert laser scan to points
+        angles = np.linspace(-math.pi/2, math.pi/2, len(self.scan_data))
+        points = []
+        
+        for i, distance in enumerate(self.scan_data):
+            if distance < float('inf'):
+                angle = angles[i] + self.orientation
+                x = self.position.x + distance * math.cos(angle)
+                y = self.position.y + distance * math.sin(angle)
+                points.append((x, y))
+                
+        # Find gaps in the scan that could be frontiers
+        frontier_points = []
+        for i in range(len(points) - 1):
+            p1 = points[i]
+            p2 = points[i + 1]
+            dist = math.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2)
+            
+            if dist > 1.0:  # Gap threshold
+                frontier_x = (p1[0] + p2[0]) / 2
+                frontier_y = (p1[1] + p2[1]) / 2
+                
+                # Check if point is within map bounds and not visited
+                if (self.map_bounds['x_min'] <= frontier_x <= self.map_bounds['x_max'] and
+                    self.map_bounds['y_min'] <= frontier_y <= self.map_bounds['y_max']):
+                    
+                    # Check if point is not too close to visited points
+                    is_new = True
+                    for visited in self.visited_points:
+                        if math.sqrt((frontier_x - visited[0])**2 + 
+                                   (frontier_y - visited[1])**2) < 1.0:
+                            is_new = False
+                            break
+                            
+                    if is_new:
+                        frontier_points.append((frontier_x, frontier_y))
+        
+        if frontier_points:
+            # Choose the closest frontier point
+            closest_frontier = min(frontier_points, 
+                key=lambda p: (p[0] - self.position.x)**2 + 
+                            (p[1] - self.position.y)**2)
+            
+            target = Point()
+            target.x = closest_frontier[0]
+            target.y = closest_frontier[1]
+            
+            self.visited_points.append(closest_frontier)
+            return target
+            
+        return None
+        
+    def at_target(self, target):
+        if not target:
+            return True
+            
+        distance = math.sqrt(
+            (target.x - self.position.x)**2 + 
+            (target.y - self.position.y)**2)
+            
+        return distance < self.distance_threshold
+        
+    def rotate_to_heading(self, target_heading):
+        while True:
+            # Calculate angle difference in range [-pi, pi]
+            angle_diff = (target_heading - self.orientation + math.pi) % (2 * math.pi) - math.pi
+            
+            if abs(angle_diff) < self.angle_threshold:
+                break
+                
+            # Create rotation command
+            twist = Twist()
+            twist.angular.z = self.angular_speed if angle_diff > 0 else -self.angular_speed
+            self.cmd_vel_pub.publish(twist)
+            
+            # Small delay to prevent CPU overload
+            rclpy.spin_once(self, timeout_sec=0.1)
+            
+    def move_forward_safely(self):
+        if not self.scan_data:
+            return
+            
+        # Check for obstacles in front
+        front_scan = min(self.scan_data[len(self.scan_data)//3:2*len(self.scan_data)//3])
+        
+        twist = Twist()
+        if front_scan > 0.5:  # Safe distance threshold
+            twist.linear.x = self.linear_speed
+        else:
+            twist.linear.x = 0.0
+            
+        self.cmd_vel_pub.publish(twist)
+        
+    def detect_marker(self):
+        # This would be implemented using the camera feed and ArUco detection
+        # For now, return False as placeholder
+        return False
+        
+    def get_marker_info(self):
+        # This would return the detected marker's ID and position
+        # For now, return placeholder values
+        return None, None
+        
+    def coordinate_big_fire(self, position):
+        # Publish fire location for other robot
+        fire_msg = String()
+        fire_msg.data = json.dumps({
+            'x': position.x,
+            'y': position.y
+        })
+        self.fire_pub.publish(fire_msg)
+        
+        # Move to fire location
+        self.move_to_point(position)
+        
+        # Wait at location
+        while rclpy.ok():
+            # Keep position but look for other robot
+            self.rotate_to_heading(self.orientation + math.pi/4)
+            rclpy.spin_once(self, timeout_sec=0.1)
 
 def main(args=None):
     rclpy.init(args=args)
-    controller = RobotController()
+    
+    # Create two controllers with different namespaces
+    controller_0 = RobotController()
+    controller_1 = RobotController()
     
     try:
-        rclpy.spin(controller)
+        # Use MultiThreadedExecutor to run both controllers
+        from rclpy.executors import MultiThreadedExecutor
+        executor = MultiThreadedExecutor()
+        executor.add_node(controller_0)
+        executor.add_node(controller_1)
+        
+        try:
+            executor.spin()
+        finally:
+            executor.shutdown()
+            
     except Exception as e:
         print(f"Error: {e}")
     finally:
-        # Stop the robot before shutting down
+        # Stop both robots
         stop_msg = Twist()
-        controller.cmd_vel_pub.publish(stop_msg)
-        controller.destroy_node()
+        controller_0.cmd_vel_pub.publish(stop_msg)
+        controller_1.cmd_vel_pub.publish(stop_msg)
+        
+        # Cleanup
+        controller_0.destroy_node()
+        controller_1.destroy_node()
         rclpy.shutdown()
 
 if __name__ == '__main__':
