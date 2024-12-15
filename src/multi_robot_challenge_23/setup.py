@@ -27,12 +27,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'marker_recognition = multi_robot_challenge_23.marker_pose:main',
-            'braitenberg = multi_robot_challenge_23.braitenberg:main',
-            'report_marker = multi_robot_challenge_23.report_marker:main',
-            'bug2 = multi_robot_challenge_23.bug2:main', 
-            'goToPoint = multi_robot_challenge_23.goToPoint:main', 
-            'wallFollower = multi_robot_challenge_23.wallFollower:main',   
+            'marker_recognition = multi_robot_challenge_23.marker_pose:main',   
             'leader = multi_robot_challenge_23.leader:main',
             'robot_handler = multi_robot_challenge_23.robot_handler:main',
             'scoring = multi_robot_challenge_23.scoring:main',
