@@ -48,6 +48,8 @@ class RobotController(Node):
             0: 'find the wall',
             1: 'turn',
             2: 'follow the wall',
+            3: 'corner escape',
+            4: 'wall end recovery',
         }
         
         # Direction modifier based on robot ID (mirrored behavior)
@@ -106,16 +108,18 @@ class RobotController(Node):
 
     def scan_callback(self, msg):
         self.scan_data = msg.ranges
-        # Update regions with safety checks
+        # Update regions with more detailed sectors
         try:
             self.regions = {
                 'right':  min(min([x for x in msg.ranges[180:299] if not math.isinf(x)], default=10.0), 10.0),
-                'fright': min(min([x for x in msg.ranges[320:339] if not math.isinf(x)], default=10.0), 10.0),
-                'front':  min(min([x for x in msg.ranges[0:9] + msg.ranges[350:359] if not math.isinf(x)], default=10.0), 10.0),
-                'fleft':  min(min([x for x in msg.ranges[20:39] if not math.isinf(x)], default=10.0), 10.0),
-                'left':   min(min([x for x in msg.ranges[60:179] if not math.isinf(x)], default=10.0), 10.0),
+                'fright': min(min([x for x in msg.ranges[300:339] if not math.isinf(x)], default=10.0), 10.0),
+                'front':  min(min([x for x in msg.ranges[0:20] + msg.ranges[340:359] if not math.isinf(x)], default=10.0), 10.0),
+                'fleft':  min(min([x for x in msg.ranges[21:60] if not math.isinf(x)], default=10.0), 10.0),
+                'left':   min(min([x for x in msg.ranges[61:179] if not math.isinf(x)], default=10.0), 10.0),
+                # Add diagonal checks
+                'diagonal_right': min(min([x for x in msg.ranges[225:265] if not math.isinf(x)], default=10.0), 10.0),
+                'diagonal_left': min(min([x for x in msg.ranges[95:135] if not math.isinf(x)], default=10.0), 10.0),
             }
-            self.get_logger().debug(f"{self.namespace} - Regions: {self.regions}")
             self.take_action()
         except Exception as e:
             self.get_logger().error(f"{self.namespace} - Error in scan_callback: {str(e)}")
@@ -137,24 +141,41 @@ class RobotController(Node):
 
     def take_action(self):
         regions = self.regions
-        d = 0.7
+        d = 0.7  # Normal distance threshold
+        d_close = 0.4  # Close distance threshold
+        
+        # Check if we're in a corner or at end of wall
+        in_corner = (regions['front'] < d and 
+                    (regions['diagonal_right'] < d or regions['diagonal_left'] < d))
+        
+        at_wall_end = (
+            (self.namespace == 'tb3_0' and regions['right'] > 2.0 and regions['diagonal_right'] > 2.0) or
+            (self.namespace == 'tb3_1' and regions['left'] > 2.0 and regions['diagonal_left'] > 2.0)
+        )
 
-        # Mirror the region checks based on robot ID
-        if self.namespace == 'tb3_0':
-            check_side = regions['right']
-            check_side_front = regions['fright']
+        if in_corner:
+            self.get_logger().info(f"{self.namespace} - Corner detected!")
+            self.change_state(3)  # New state for corner escape
+        elif at_wall_end:
+            self.get_logger().info(f"{self.namespace} - Wall end detected!")
+            self.change_state(4)  # New state for wall end handling
         else:
-            check_side = regions['left']
-            check_side_front = regions['fleft']
+            # Mirror the region checks based on robot ID
+            if self.namespace == 'tb3_0':
+                check_side = regions['right']
+                check_side_front = regions['fright']
+            else:
+                check_side = regions['left']
+                check_side_front = regions['fleft']
 
-        if regions['front'] > d and check_side_front > d:
-            self.change_state(0)  # find wall
-        elif regions['front'] < d:
-            self.change_state(1)  # turn
-        elif check_side < d:
-            self.change_state(2)  # follow wall
-        else:
-            self.change_state(0)  # find wall
+            if regions['front'] > d and check_side_front > d:
+                self.change_state(0)  # find wall
+            elif regions['front'] < d:
+                self.change_state(1)  # turn
+            elif check_side < d:
+                self.change_state(2)  # follow wall
+            else:
+                self.change_state(0)  # find wall
 
     def find_wall(self):
         msg = Twist()
@@ -169,16 +190,43 @@ class RobotController(Node):
 
     def follow_the_wall(self):
         msg = Twist()
-        msg.linear.x = 0.3
-        # Add slight rotation to maintain wall following
-        msg.angular.z = 0.1 * self.direction_modifier
+        
+        # Adjust speed based on robot ID
+        if self.namespace == 'tb3_0':
+            side_distance = self.regions['right']
+            target_distance = 0.5
+            msg.linear.x = 0.25
+            # Proportional control for wall following
+            error = side_distance - target_distance
+            msg.angular.z = -0.5 * error * self.direction_modifier
+        else:
+            side_distance = self.regions['left']
+            target_distance = 0.5
+            msg.linear.x = 0.25
+            # Proportional control for wall following
+            error = side_distance - target_distance
+            msg.angular.z = 0.5 * error * self.direction_modifier
+        
+        return msg
+
+    def corner_escape(self):
+        """Handle corner escape"""
+        msg = Twist()
+        msg.linear.x = -0.2  # Back up
+        msg.angular.z = 1.0 * self.direction_modifier  # Turn based on robot ID
+        return msg
+
+    def wall_end_recovery(self):
+        """Handle wall end recovery"""
+        msg = Twist()
+        msg.linear.x = 0.15
+        msg.angular.z = 0.8 * self.direction_modifier  # Make a wider turn to find next wall
         return msg
 
     def control_loop(self):
         if not self.scan_data:
             return
         
-        # Don't move if we've found the big fire and are waiting
         if 4 in self.reported_markers:
             msg = Twist()
             self.cmd_vel_pub.publish(msg)
@@ -191,9 +239,17 @@ class RobotController(Node):
             msg = self.turn()
         elif self.state == 2:
             msg = self.follow_the_wall()
+        elif self.state == 3:
+            msg = self.corner_escape()
+        elif self.state == 4:
+            msg = self.wall_end_recovery()
         else:
             self.get_logger().error(f"{self.namespace} - Unknown state!")
             return
+
+        # Add speed limits
+        msg.linear.x = max(-0.3, min(0.3, msg.linear.x))
+        msg.angular.z = max(-1.0, min(1.0, msg.angular.z))
 
         self.cmd_vel_pub.publish(msg)
 
