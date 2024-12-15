@@ -23,27 +23,14 @@ class RobotController(Node):
         self.odom_sub = self.create_subscription(Odometry, f'/{self.namespace}/odom', self.odom_callback, 10)
         self.scan_sub = self.create_subscription(LaserScan, f'/{self.namespace}/scan', self.scan_callback, 10)
         
-        # Subscribe to filtered map with QoS
-        self.filtered_map = None
-        self.map_sub = self.create_subscription(
-            OccupancyGrid, 
-            'filtered_map', 
-            self.map_callback,
-            qos_profile=QoSProfile(
-                reliability=QoSReliabilityPolicy.RMW_QOS_POLICY_RELIABILITY_RELIABLE,
-                durability=QoSDurabilityPolicy.RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL,
-                history=QoSHistoryPolicy.RMW_QOS_POLICY_HISTORY_KEEP_LAST,
-                depth=1
-            )
-        )
-        
         # Robot state
         self.position = None
         self.yaw = 0.0
         self.scan_data = None
         self.direction_modifier = -1 if self.namespace == 'tb3_0' else 1
+        self.state = 'find_wall'  # States: 'find_wall', 'follow_wall', 'turn'
         
-        # Region definitions
+        # Region definitions with wider angles
         self.regions = {
             'right': 10.0,
             'fright': 10.0,
@@ -68,40 +55,85 @@ class RobotController(Node):
     def scan_callback(self, msg):
         self.scan_data = msg.ranges
         try:
-            self.regions = {
-                'right':  min(min([x for x in msg.ranges[250:290] if not math.isinf(x)], default=10.0), 10.0),
-                'fright': min(min([x for x in msg.ranges[291:330] if not math.isinf(x)], default=10.0), 10.0),
-                'front':  min(min([x for x in msg.ranges[331:359] + msg.ranges[0:30] if not math.isinf(x)], default=10.0), 10.0),
-                'fleft':  min(min([x for x in msg.ranges[31:70] if not math.isinf(x)], default=10.0), 10.0),
-                'left':   min(min([x for x in msg.ranges[71:110] if not math.isinf(x)], default=10.0), 10.0),
-            }
+            if self.namespace == 'tb3_0':
+                self.regions = {
+                    'right':  min(min([x for x in msg.ranges[260:300] if not math.isinf(x)], default=10.0), 10.0),
+                    'fright': min(min([x for x in msg.ranges[301:340] if not math.isinf(x)], default=10.0), 10.0),
+                    'front':  min(min([x for x in msg.ranges[341:359] + msg.ranges[0:20] if not math.isinf(x)], default=10.0), 10.0),
+                    'fleft':  min(min([x for x in msg.ranges[21:60] if not math.isinf(x)], default=10.0), 10.0),
+                    'left':   min(min([x for x in msg.ranges[61:100] if not math.isinf(x)], default=10.0), 10.0),
+                }
+            else:
+                self.regions = {
+                    'left':   min(min([x for x in msg.ranges[60:100] if not math.isinf(x)], default=10.0), 10.0),
+                    'fleft':  min(min([x for x in msg.ranges[20:59] if not math.isinf(x)], default=10.0), 10.0),
+                    'front':  min(min([x for x in msg.ranges[341:359] + msg.ranges[0:19] if not math.isinf(x)], default=10.0), 10.0),
+                    'fright': min(min([x for x in msg.ranges[300:340] if not math.isinf(x)], default=10.0), 10.0),
+                    'right':  min(min([x for x in msg.ranges[260:299] if not math.isinf(x)], default=10.0), 10.0),
+                }
         except Exception as e:
             self.get_logger().error(f"{self.namespace} - Error in scan_callback: {str(e)}")
 
-    def map_callback(self, msg):
-        self.filtered_map = msg
-        self.get_logger().info(f"{self.namespace} - Received map update")
+    def find_wall(self):
+        """Initial movement to find a wall"""
+        msg = Twist()
+        if self.namespace == 'tb3_0':
+            # TB3_0 moves forward and slightly right
+            msg.linear.x = 0.2
+            msg.angular.z = -0.2
+            if self.regions['right'] < 0.5:  # Found right wall
+                self.state = 'follow_wall'
+        else:
+            # TB3_1 moves forward and slightly left
+            msg.linear.x = 0.2
+            msg.angular.z = 0.2
+            if self.regions['left'] < 0.5:  # Found left wall
+                self.state = 'follow_wall'
+        return msg
 
-    def wall_following(self):
+    def follow_wall(self):
+        """Follow wall while maintaining safe distance"""
         msg = Twist()
         
-        # Different behavior based on robot ID
+        if self.namespace == 'tb3_0':  # Right wall follower
+            if self.regions['front'] > 0.5:  # Front is clear
+                msg.linear.x = 0.2
+                if self.regions['right'] > 0.4:  # Too far from wall
+                    msg.angular.z = -0.2
+                elif self.regions['right'] < 0.3:  # Too close to wall
+                    msg.angular.z = 0.2
+                else:
+                    msg.angular.z = 0.0
+            else:  # Front obstacle
+                self.state = 'turn'
+        else:  # Left wall follower
+            if self.regions['front'] > 0.5:  # Front is clear
+                msg.linear.x = 0.2
+                if self.regions['left'] > 0.4:  # Too far from wall
+                    msg.angular.z = 0.2
+                elif self.regions['left'] < 0.3:  # Too close to wall
+                    msg.angular.z = -0.2
+                else:
+                    msg.angular.z = 0.0
+            else:  # Front obstacle
+                self.state = 'turn'
+        
+        return msg
+
+    def turn(self):
+        """Handle turning at obstacles"""
+        msg = Twist()
+        msg.linear.x = 0.0
+        
         if self.namespace == 'tb3_0':
-            side_distance = self.regions['right']
-            target_distance = 0.5
+            msg.angular.z = 0.4  # Turn left at obstacles
+            if self.regions['front'] > 0.5 and self.regions['right'] < 0.5:
+                self.state = 'follow_wall'
         else:
-            side_distance = self.regions['left']
-            target_distance = 0.5
-
-        # If front is clear
-        if self.regions['front'] > 0.5:
-            msg.linear.x = 0.15  # Move slower
-            error = side_distance - target_distance
-            msg.angular.z = 0.5 * error * self.direction_modifier
-        else:
-            msg.linear.x = 0.0
-            msg.angular.z = 0.5 * self.direction_modifier
-
+            msg.angular.z = -0.4  # Turn right at obstacles
+            if self.regions['front'] > 0.5 and self.regions['left'] < 0.5:
+                self.state = 'follow_wall'
+        
         return msg
 
     def control_loop(self):
@@ -109,17 +141,23 @@ class RobotController(Node):
             self.get_logger().warn(f"{self.namespace} - Waiting for sensor data...")
             return
 
-        msg = Twist()
-        
-        # Basic wall following behavior
-        msg = self.wall_following()
+        # State machine for movement
+        if self.state == 'find_wall':
+            msg = self.find_wall()
+        elif self.state == 'follow_wall':
+            msg = self.follow_wall()
+        elif self.state == 'turn':
+            msg = self.turn()
+        else:
+            msg = Twist()
+            self.get_logger().error(f"{self.namespace} - Unknown state: {self.state}")
         
         # Add speed limits
         msg.linear.x = max(-0.2, min(0.2, msg.linear.x))
         msg.angular.z = max(-0.5, min(0.5, msg.angular.z))
 
         self.cmd_vel_pub.publish(msg)
-        self.get_logger().debug(f"{self.namespace} - v: {msg.linear.x:.2f}, w: {msg.angular.z:.2f}")
+        self.get_logger().debug(f"{self.namespace} - State: {self.state}, v: {msg.linear.x:.2f}, w: {msg.angular.z:.2f}")
 
 def main(args=None):
     rclpy.init(args=args)
