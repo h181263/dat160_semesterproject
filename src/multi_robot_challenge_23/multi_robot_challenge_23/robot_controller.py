@@ -220,6 +220,63 @@ class RobotController(Node):
         
         self.cmd_vel_pub.publish(msg)
 
+    def odom_callback(self, msg):
+        """Process odometry data"""
+        self.position = msg.pose.pose.position
+        quaternion = (
+            msg.pose.pose.orientation.x,
+            msg.pose.pose.orientation.y,
+            msg.pose.pose.orientation.z,
+            msg.pose.pose.orientation.w
+        )
+        euler = euler_from_quaternion(quaternion)
+        self.yaw = euler[2]
+
+    def scan_callback(self, msg):
+        """Process laser scan data"""
+        self.scan_data = msg.ranges
+        try:
+            self.regions = {
+                'right':  min(min([x for x in msg.ranges[250:290] if not math.isinf(x)], default=10.0), 10.0),
+                'fright': min(min([x for x in msg.ranges[291:330] if not math.isinf(x)], default=10.0), 10.0),
+                'front':  min(min([x for x in msg.ranges[331:359] + msg.ranges[0:30] if not math.isinf(x)], default=10.0), 10.0),
+                'fleft':  min(min([x for x in msg.ranges[31:70] if not math.isinf(x)], default=10.0), 10.0),
+                'left':   min(min([x for x in msg.ranges[71:110] if not math.isinf(x)], default=10.0), 10.0),
+            }
+        except Exception as e:
+            self.get_logger().error(f"{self.namespace} - Error in scan_callback: {str(e)}")
+
+    def wall_following(self):
+        """Basic wall following behavior"""
+        msg = Twist()
+        
+        if self.namespace == 'tb3_0':  # Right wall follower
+            if self.regions['front'] > 0.5:  # Front is clear
+                msg.linear.x = 0.15
+                if self.regions['right'] > 0.4:  # Too far from wall
+                    msg.angular.z = -0.2
+                elif self.regions['right'] < 0.3:  # Too close to wall
+                    msg.angular.z = 0.2
+                else:
+                    msg.angular.z = 0.0
+            else:  # Front obstacle
+                msg.linear.x = 0.0
+                msg.angular.z = 0.4  # Turn left
+        else:  # Left wall follower
+            if self.regions['front'] > 0.5:  # Front is clear
+                msg.linear.x = 0.15
+                if self.regions['left'] > 0.4:  # Too far from wall
+                    msg.angular.z = 0.2
+                elif self.regions['left'] < 0.3:  # Too close to wall
+                    msg.angular.z = -0.2
+                else:
+                    msg.angular.z = 0.0
+            else:  # Front obstacle
+                msg.linear.x = 0.0
+                msg.angular.z = -0.4  # Turn right
+        
+        return msg
+
 def main(args=None):
     rclpy.init(args=args)
     controller = RobotController()
