@@ -28,6 +28,18 @@ def generate_launch_description():
                 ('marker_id', '/tb3_1/marker_id')
             ]),
         launch_ros.actions.Node(
+            package='multi_robot_challenge_23',
+            executable='marker_recognition',
+            name='marker_recognition',
+            parameters=[{"namespace": "tb3_0"}],
+        ),
+        launch_ros.actions.Node(
+            package='multi_robot_challenge_23',
+            executable='marker_recognition',
+            name='marker_recognition',
+            parameters=[{"namespace": "tb3_1"}],
+        ),
+        launch_ros.actions.Node(
             package='scoring',
             executable='scoring',
             name='scoring'),

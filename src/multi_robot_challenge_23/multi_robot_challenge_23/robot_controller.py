@@ -101,32 +101,36 @@ class RobotController(Node):
         if not self.current_marker:
             self.get_logger().warn(f"{self.namespace} - No marker to report")
             return False
-        
+
         if not self.marker_client.wait_for_service(timeout_sec=1.0):
             self.get_logger().error(f"{self.namespace} - Marker service not available")
             return False
-            
+
         request = SetMarkerPosition.Request()
         request.marker_id = self.current_marker['id']
         request.marker_position = self.current_marker['pose'].position
-        
-        self.get_logger().info(f"{self.namespace} - Reporting marker {request.marker_id} at position: x={request.marker_position.x:.2f}, y={request.marker_position.y:.2f}, z={request.marker_position.z:.2f}")
-        
+
+        self.get_logger().info(
+            f"{self.namespace} - Reporting marker {request.marker_id} at position: "
+            f"x={request.marker_position.x:.2f}, y={request.marker_position.y:.2f}, z={request.marker_position.z:.2f}"
+        )
+
         future = self.marker_client.call_async(request)
         future.add_done_callback(self.marker_response_callback)
         return True
 
+
     def marker_response_callback(self, future):
-        """Handle marker reporting response"""
         try:
             response = future.result()
             if response.accepted:
                 self.reported_markers.add(self.current_marker['id'])
                 self.get_logger().info(f"{self.namespace} - Successfully reported marker {self.current_marker['id']}")
             else:
-                self.get_logger().warn(f"{self.namespace} - Marker {self.current_marker['id']} report rejected - Position might be inaccurate")
+                self.get_logger().warn(f"{self.namespace} - Marker {self.current_marker['id']} report rejected - Possibly inaccurate position")
         except Exception as e:
             self.get_logger().error(f"{self.namespace} - Service call failed: {str(e)}")
+
         
         self.current_marker = None
         self.state = 'explore'
