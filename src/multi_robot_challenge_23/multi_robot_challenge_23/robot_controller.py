@@ -45,16 +45,17 @@ class RobotController(Node):
             SetMarkerPosition, 'set_marker_position')
             
         # Robot state
-        self.position = Point()
-        self.orientation = 0.0  # yaw in radians
+        self.position = None
+        self.orientation = 0.0
         self.scan_data = None
-        self.frontiers = []
-        self.visited_points = []
-        self.big_fire_location = None
-        self.linear_speed = 0.2
-        self.angular_speed = 0.5
-        self.distance_threshold = 0.3
-        self.angle_threshold = 0.1
+        self.current_marker_pose = None
+        self.current_marker_id = None
+        self.new_marker_detected = False
+        self.is_exploring = False
+        self.stuck_counter = 0
+        self.last_position = Point()
+        self.recovery_mode = False
+        self.recovery_start_time = None
         
         # Map boundaries (from map yaml files)
         self.map_bounds = {
@@ -63,6 +64,13 @@ class RobotController(Node):
             'y_min': -10.0,
             'y_max': 10.0
         }
+        
+        # Movement parameters
+        self.linear_speed = 0.15  # Reduced from 0.2 for better control
+        self.angular_speed = 0.3  # Reduced from 0.5 for better control
+        self.min_front_distance = 0.5
+        self.stuck_threshold = 0.01
+        self.stuck_time_threshold = 20
         
     def odom_callback(self, msg):
         self.position = msg.pose.pose.position
@@ -223,6 +231,62 @@ class RobotController(Node):
         """Callback for receiving marker IDs"""
         self.current_marker_id = msg.data
         self.get_logger().info(f"{self.namespace} detected marker ID: {msg.data}")
+
+    def exploration_callback(self):
+        """Main control loop"""
+        if not self.scan_data or self.position is None:
+            self.get_logger().warn(f"{self.namespace}: Waiting for sensor data...")
+            return
+
+        if not self.is_exploring:
+            self.is_exploring = True
+            self.get_logger().info(f"{self.namespace} starting exploration")
+        
+        twist = Twist()
+        
+        # Get front distance from laser scan
+        front_distance = min([x for x in self.scan_data[165:195] if not math.isinf(x)], default=10.0)
+        left_distance = min([x for x in self.scan_data[60:120] if not math.isinf(x)], default=10.0)
+        right_distance = min([x for x in self.scan_data[240:300] if not math.isinf(x)], default=10.0)
+        
+        # Debug info
+        self.get_logger().debug(f"{self.namespace}: Front: {front_distance:.2f}, Left: {left_distance:.2f}, Right: {right_distance:.2f}")
+
+        # Check if stuck
+        if self.check_if_stuck():
+            if not self.recovery_mode:
+                self.recovery_mode = True
+                self.get_logger().info(f"{self.namespace} is stuck, entering recovery mode")
+            
+            # Recovery behavior - back up and turn
+            twist.linear.x = -0.1
+            twist.angular.z = 0.5
+            
+        else:
+            # Normal exploration behavior
+            if front_distance > self.min_front_distance:
+                # Move forward if path is clear
+                twist.linear.x = self.linear_speed
+                
+                # Wall following behavior
+                if left_distance < 0.5:  # Too close to left wall
+                    twist.angular.z = -0.2  # Turn right
+                elif right_distance < 0.5:  # Too close to right wall
+                    twist.angular.z = 0.2   # Turn left
+                elif left_distance > 2.0 and right_distance > 2.0:  # In open space
+                    # Random wandering
+                    twist.angular.z = (np.random.random() - 0.5) * 0.5
+                    
+            else:
+                # Obstacle ahead - find best turn direction
+                if left_distance > right_distance:
+                    twist.angular.z = self.angular_speed  # Turn left
+                else:
+                    twist.angular.z = -self.angular_speed  # Turn right
+        
+        # Publish movement command
+        self.get_logger().debug(f"{self.namespace}: Publishing twist: linear={twist.linear.x:.2f}, angular={twist.angular.z:.2f}")
+        self.cmd_vel_pub.publish(twist)
 
 def main(args=None):
     rclpy.init(args=args)
