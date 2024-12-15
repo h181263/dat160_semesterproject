@@ -37,6 +37,7 @@ setup(
             'robot_handler = multi_robot_challenge_23.robot_handler:main',
             'scoring = multi_robot_challenge_23.scoring:main',
             'marker_pose = multi_robot_challenge_23.marker_pose:main',
+            'robot_controller = multi_robot_challenge_23.robot_controller:main',
         ],
     },
 )
