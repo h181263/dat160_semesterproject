@@ -248,63 +248,87 @@ class RobotController(Node):
 
         twist = Twist()
         
-        # Get more detailed scan data
-        front_center = min([x for x in self.scan_data[175:185] if not math.isinf(x)], default=10.0)
-        front_left = min([x for x in self.scan_data[150:175] if not math.isinf(x)], default=10.0)
-        front_right = min([x for x in self.scan_data[185:210] if not math.isinf(x)], default=10.0)
-        left = min([x for x in self.scan_data[60:120] if not math.isinf(x)], default=10.0)
-        right = min([x for x in self.scan_data[240:300] if not math.isinf(x)], default=10.0)
+        # Convert inf readings to max range and get scan data
+        ranges = [min(x, 10.0) if not math.isinf(x) else 10.0 for x in self.scan_data]
         
-        # Emergency stop if too close to wall
-        if front_center < 0.3:
-            self.get_logger().warn(f"{self.namespace}: Emergency stop - too close to wall!")
-            twist.linear.x = -0.1  # Back up
+        # Get critical distances
+        front_center = min(ranges[175:185])
+        front_left = min(ranges[150:175])
+        front_right = min(ranges[185:210])
+        left = min(ranges[60:120])
+        right = min(ranges[240:300])
+        
+        # Debug logging
+        self.get_logger().info(
+            f"{self.namespace} distances - Front: {front_center:.2f}, "
+            f"FL: {front_left:.2f}, FR: {front_right:.2f}, "
+            f"L: {left:.2f}, R: {right:.2f}"
+        )
+
+        # STOP if about to hit something
+        if front_center < 0.3 or front_left < 0.3 or front_right < 0.3:
+            self.get_logger().warn(f"{self.namespace}: EMERGENCY STOP!")
+            
+            # Aggressive backup and turn
+            twist.linear.x = -0.2
             if left > right:
-                twist.angular.z = 0.8  # Turn left sharply
+                twist.angular.z = 1.5  # Sharp left turn
             else:
-                twist.angular.z = -0.8  # Turn right sharply
+                twist.angular.z = -1.5  # Sharp right turn
+                
             self.cmd_vel_pub.publish(twist)
             return
 
-        # Wall avoidance behavior
-        if front_center < 0.5 or front_left < 0.4 or front_right < 0.4:
-            self.get_logger().info(f"{self.namespace}: Obstacle detected, avoiding...")
-            twist.linear.x = 0.0  # Stop forward motion
-            
-            # Determine turn direction based on available space
-            if left > right:
-                twist.angular.z = 0.6  # Turn left
-            else:
-                twist.angular.z = -0.6  # Turn right
-            
-        else:
-            # Normal exploration
-            twist.linear.x = self.linear_speed
-            
-            # Wall following with proportional control
-            if left < 0.5:  # Too close to left wall
-                twist.angular.z = -0.3 * (0.5 - left)  # Proportional turn right
-            elif right < 0.5:  # Too close to right wall
-                twist.angular.z = 0.3 * (0.5 - right)  # Proportional turn left
-            else:
-                # Random wandering in open space
-                if np.random.random() < 0.1:  # 10% chance to change direction
-                    twist.angular.z = (np.random.random() - 0.5) * 0.3
+        # Check if we're too close to any wall
+        too_close = front_center < 0.5 or front_left < 0.4 or front_right < 0.4
         
-        # Stuck detection and recovery
-        if self.check_if_stuck():
-            self.get_logger().warn(f"{self.namespace}: Stuck detected, executing recovery...")
-            twist.linear.x = -0.15
-            twist.angular.z = 1.0 if np.random.random() > 0.5 else -1.0
+        if too_close:
+            self.get_logger().info(f"{self.namespace}: Too close to wall, avoiding...")
+            # Stop and turn
+            twist.linear.x = 0.0
             
-        # Speed limiting
-        twist.linear.x = max(-0.2, min(0.2, twist.linear.x))  # Limit linear speed
-        twist.angular.z = max(-1.0, min(1.0, twist.angular.z))  # Limit angular speed
+            # Determine escape direction
+            if left > right:
+                twist.angular.z = 1.0  # Turn left
+            else:
+                twist.angular.z = -1.0  # Turn right
+                
+        else:
+            # Normal exploration mode
+            twist.linear.x = 0.1  # Very conservative forward speed
+            
+            # Active wall avoidance
+            if left < 0.6:  # Increased safety margin
+                twist.angular.z = -0.5  # Turn right
+            elif right < 0.6:  # Increased safety margin
+                twist.angular.z = 0.5  # Turn left
+            else:
+                # Random wandering with bias
+                if np.random.random() < 0.1:  # 10% chance to change direction
+                    twist.angular.z = (np.random.random() - 0.5) * 0.5
+        
+        # Additional stuck detection
+        if self.check_if_stuck():
+            self.get_logger().warn(f"{self.namespace}: Stuck detected!")
+            # Very aggressive recovery
+            twist.linear.x = -0.2
+            twist.angular.z = 2.0 if np.random.random() > 0.5 else -2.0
+            self.stuck_counter = 0  # Reset stuck counter
+        
+        # Ensure we're not exceeding speed limits
+        twist.linear.x = max(-0.2, min(0.2, twist.linear.x))
+        twist.angular.z = max(-2.0, min(2.0, twist.angular.z))
+        
+        # Debug movement commands
+        self.get_logger().info(
+            f"{self.namespace} movement - Linear: {twist.linear.x:.2f}, "
+            f"Angular: {twist.angular.z:.2f}"
+        )
         
         self.cmd_vel_pub.publish(twist)
 
     def check_if_stuck(self):
-        """Enhanced stuck detection"""
+        """More sensitive stuck detection"""
         if not hasattr(self.last_position, 'x'):
             self.last_position = self.position
             return False
@@ -314,16 +338,18 @@ class RobotController(Node):
             (self.position.y - self.last_position.y) ** 2
         )
 
-        if distance_moved < self.stuck_threshold:
-            self.stuck_counter += 1
-        else:
-            self.stuck_counter = 0  # Reset counter if moving
-
+        # Update last position
         self.last_position = Point()
         self.last_position.x = self.position.x
         self.last_position.y = self.position.y
 
-        return self.stuck_counter > 10  # Reduced threshold for quicker response
+        # More sensitive stuck detection
+        if distance_moved < 0.01:  # Smaller threshold
+            self.stuck_counter += 1
+        else:
+            self.stuck_counter = 0
+
+        return self.stuck_counter > 5  # Faster response
 
     def test_movement(self):
         """Test function to verify basic movement"""
