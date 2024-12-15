@@ -1,7 +1,7 @@
 ## Semester Prosjekt Gruppe 2 Førde
 
 Vi lyktes dessverre ikke med å rapportere en score til Scoring-noden. 
-Til tross for at vi har brukt mange timer på feilsøking og forsøk på å identifisere problemet, 
+Til tross for at vi har brukt mye tid på feilsøking og forsøk på å identifisere problemet, 
 måtte vi til slutt innse at tiden ikke strakk til for å løse dette.
 
 ### Terminal Kommandoer
